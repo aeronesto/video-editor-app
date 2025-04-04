@@ -1,12 +1,12 @@
-import React, { useState, useRef } from 'react';
-import './VideoUploader.css';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../VideoUploader.css';
 
-function VideoUploader() {
+function EditPage() {
   const [videoFile, setVideoFile] = useState(null);
-  const [dragActive, setDragActive] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [editing, setEditing] = useState(false);
   const videoRef = useRef(null);
+  const navigate = useNavigate();
   
   // Mock transcription data
   const mockTranscription = `
@@ -18,53 +18,18 @@ function VideoUploader() {
     [00:00:25] Below both of these elements are the playback controls.
     [00:00:30] And finally, at the bottom is an audio waveform.
   `;
-  
-  const handleDrag = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
+
+  // Load video data from localStorage when component mounts
+  useEffect(() => {
+    const savedVideoData = localStorage.getItem('videoData');
+    if (savedVideoData) {
+      setVideoFile(JSON.parse(savedVideoData));
+    } else {
+      // Redirect to upload page if no video data is found
+      navigate('/');
     }
-  };
-  
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const file = e.dataTransfer.files[0];
-      if (file.type.startsWith('video/')) {
-        handleFile(file);
-      } else {
-        alert('Please upload a video file.');
-      }
-    }
-  };
-  
-  const handleChange = (e) => {
-    e.preventDefault();
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      if (file.type.startsWith('video/')) {
-        handleFile(file);
-      } else {
-        alert('Please upload a video file.');
-      }
-    }
-  };
-  
-  const handleFile = (file) => {
-    setVideoFile({
-      file: file,
-      url: URL.createObjectURL(file),
-      name: file.name
-    });
-    setEditing(true);
-  };
-  
+  }, [navigate]);
+
   const togglePlayPause = () => {
     if (videoRef.current) {
       if (playing) {
@@ -76,30 +41,9 @@ function VideoUploader() {
     }
   };
   
-  if (!editing) {
-    return (
-      <div className="upload-container">
-        <h2>Upload Video</h2>
-        <div 
-          className={`upload-area ${dragActive ? 'active' : ''}`}
-          onDragEnter={handleDrag}
-          onDragLeave={handleDrag}
-          onDragOver={handleDrag}
-          onDrop={handleDrop}
-        >
-          <p>Drag and drop your video here</p>
-          <label className="upload-button">
-            <input 
-              type="file" 
-              accept="video/*" 
-              onChange={handleChange} 
-              hidden 
-            />
-            <span>Browse Files</span>
-          </label>
-        </div>
-      </div>
-    );
+  // Wait for videoFile to be loaded from localStorage
+  if (!videoFile) {
+    return <div>Loading...</div>;
   }
   
   return (
@@ -108,8 +52,8 @@ function VideoUploader() {
       <button 
         className="back-button" 
         onClick={() => {
-          setVideoFile(null);
-          setEditing(false);
+          localStorage.removeItem('videoData');
+          navigate('/');
         }}
       >
         Back to Upload
@@ -172,4 +116,4 @@ function VideoUploader() {
   );
 }
 
-export default VideoUploader; 
+export default EditPage; 
