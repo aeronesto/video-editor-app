@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../VideoUploader.css';
 
 function EditPage() {
@@ -7,6 +7,7 @@ function EditPage() {
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
   
   // Mock transcription data
   const mockTranscription = `
@@ -19,16 +20,63 @@ function EditPage() {
     [00:00:30] And finally, at the bottom is an audio waveform.
   `;
 
-  // Load video data from localStorage when component mounts
+  // Load video data when component mounts
   useEffect(() => {
-    const savedVideoData = localStorage.getItem('videoData');
-    if (savedVideoData) {
-      setVideoFile(JSON.parse(savedVideoData));
+    // Get the videoId from URL query parameters
+    const params = new URLSearchParams(location.search);
+    const videoId = params.get('videoId');
+    
+    if (videoId) {
+      // If videoId exists, load from localStorage
+      const videos = JSON.parse(localStorage.getItem('videos') || '{}');
+      const videoData = videos[videoId];
+      
+      if (videoData) {
+        setVideoFile(videoData);
+      } else {
+        // If video data not found, load default
+        loadDefaultVideo();
+      }
     } else {
-      // Redirect to upload page if no video data is found
-      navigate('/');
+      // If no videoId in query params, load default
+      loadDefaultVideo();
     }
-  }, [navigate]);
+  }, [location]);
+
+  // Function to load default video
+  const loadDefaultVideo = () => {
+    // Path to local default video
+    const defaultVideoPath = '/2x.mp4';
+    
+    // Create a loading state while fetching the file
+    setVideoFile({ id: 'default', name: 'Default Video (Loading...)', url: '' });
+    
+    // Fetch the local file
+    fetch(defaultVideoPath)
+      .then(response => response.blob())
+      .then(blob => {
+        // Create an object URL from the blob
+        const url = URL.createObjectURL(blob);
+        
+        const defaultVideo = {
+          id: 'default',
+          name: 'Default Video',
+          url: url
+        };
+        
+        setVideoFile(defaultVideo);
+      })
+      .catch(error => {
+        console.error('Error loading default video:', error);
+        // Fallback to a public URL if local file can't be loaded
+        const defaultVideo = {
+          id: 'default',
+          name: 'Default Video (Fallback)',
+          url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+        };
+        setVideoFile(defaultVideo);
+      });
+  };
 
   const togglePlayPause = () => {
     if (videoRef.current) {
@@ -41,7 +89,7 @@ function EditPage() {
     }
   };
   
-  // Wait for videoFile to be loaded from localStorage
+  // Wait for videoFile to be loaded
   if (!videoFile) {
     return <div>Loading...</div>;
   }
@@ -52,7 +100,6 @@ function EditPage() {
       <button 
         className="back-button" 
         onClick={() => {
-          localStorage.removeItem('videoData');
           navigate('/');
         }}
       >

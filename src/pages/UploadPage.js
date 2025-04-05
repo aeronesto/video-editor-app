@@ -44,15 +44,23 @@ function UploadPage() {
   };
   
   const handleFile = (file) => {
-    // Create URL and store file info in localStorage for persistence
+    // Generate a unique video ID
+    const videoId = `video_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Create URL and store file info in localStorage with the ID
     const videoData = {
+      id: videoId,
       url: URL.createObjectURL(file),
       name: file.name
     };
-    localStorage.setItem('videoData', JSON.stringify(videoData));
     
-    // Navigate to the edit page
-    navigate('/edit');
+    // Store all videos in an object by their IDs
+    const existingVideos = JSON.parse(localStorage.getItem('videos') || '{}');
+    existingVideos[videoId] = videoData;
+    localStorage.setItem('videos', JSON.stringify(existingVideos));
+    
+    // Navigate to the edit page with video ID as query parameter
+    navigate(`/edit?videoId=${videoId}`);
   };
   
   return (
