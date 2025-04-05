@@ -123,4 +123,38 @@
   width: 5px;
   background-color: #2196f3;
   border-radius: 2px;
+}
+
+/* New Waveform Styles */
+.waveform-container {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.time-display {
+  font-family: monospace;
+  font-size: 14px;
+  color: #333;
+  margin: 0 10px;
+}
+
+.installation-note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .edit-content {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .video-preview {
+    height: 250px;
+  }
 } 

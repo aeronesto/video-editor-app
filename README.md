@@ -1,24 +1,31 @@
 # Video Editor App
 
-A web application for uploading, editing, and sharing videos.
+A video editor application with transcription and audio waveform visualization.
 
-## Project Structure
+## Installation
 
-- `video-upload-app.js` - Main JavaScript logic
-- `video-upload-app-css.css` - Styling
-- `package-json.json` - Project dependencies and configuration
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Getting Started
-
-1. Clone this repository
-2. Install dependencies with `npm install`
-3. Run the application with `npm start`
+After installing WaveSurfer.js, uncomment the WaveSurfer import and code sections in `src/pages/EditPage.js`.
 
 ## Features
 
-- Video upload
-- Basic editing capabilities
-- Video sharing
+- Video uploading and preview
+- Mock transcription display
+- Audio waveform visualization using WaveSurfer.js
+- Basic video playback controls
+
+## Development
+
+Start the development server:
+
+```bash
+npm start
+```
 
 ## License
 
