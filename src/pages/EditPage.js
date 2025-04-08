@@ -119,11 +119,25 @@ function EditPage() {
       // Sync video and wavesurfer
       wavesurferRef.current.on('ready', () => {
         console.log('WaveSurfer is ready');
+        // Update duration when wavesurfer is ready
+        if (videoRef.current) {
+          setDuration(videoRef.current.duration);
+        }
       });
       
-      wavesurferRef.current.on('seek', (progress) => {
+      // Update current time when wavesurfer is playing
+      wavesurferRef.current.on('audioprocess', () => {
+        console.log('audioprocess');  
         if (videoRef.current) {
-          videoRef.current.currentTime = progress * videoRef.current.duration;
+          setCurrentTime(videoRef.current.currentTime);
+        }
+      });
+
+      wavesurferRef.current.on('interaction', (progress) => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = progress;
+          // Update current time when seeking in wavesurfer
+          setCurrentTime(progress);
         }
       });
     };
@@ -134,6 +148,8 @@ function EditPage() {
       const handleLoadedMetadata = () => {
         // Small delay to ensure everything is ready
         setTimeout(initializeWaveSurfer, 300);
+        // Set duration when metadata is loaded
+        setDuration(videoRef.current.duration);
       };
       
       videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
@@ -197,6 +213,7 @@ function EditPage() {
   
   // Format time in MM:SS format
   const formatTime = (timeInSeconds) => {
+    if (!timeInSeconds && timeInSeconds !== 0) return "00:00";
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -248,22 +265,6 @@ function EditPage() {
         <span className="time-display">
           {formatTime(currentTime)} / {formatTime(duration)}
         </span>
-        <input 
-          type="range" 
-          className="timeline-slider"
-          min="0" 
-          max={duration || 100}
-          value={currentTime || 0}
-          onChange={(e) => {
-            if (videoRef.current) {
-              const newTime = parseFloat(e.target.value);
-              videoRef.current.currentTime = newTime;
-              setCurrentTime(newTime);
-              
-              wavesurferRef.current?.seekTo(newTime / videoRef.current.duration);
-            }
-          }}
-        />
       </div>
       
       <div className="audio-waveform">
