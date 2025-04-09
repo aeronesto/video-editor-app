@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import '../VideoUploader.css';
+import '../styles/EditPage.css';
 import WaveSurfer from 'wavesurfer.js';
 
 function EditPage() {

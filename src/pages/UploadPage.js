@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../VideoUploader.css';
+import '../styles/UploadPage.css';
 
 function UploadPage() {
   const [dragActive, setDragActive] = useState(false);

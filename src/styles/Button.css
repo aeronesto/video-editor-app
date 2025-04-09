@@ -1,0 +1,21 @@
+/* Button.css */
+.custom-button {
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  border: none;
+  outline: none;
+  background-color: #2196f3;
+  color: white;
+}
+
+.custom-button:hover {
+  background-color: #0d8bf2;
+  transform: translateY(-1px);
+}
+
+.custom-button:active {
+  transform: translateY(1px);
+} 
