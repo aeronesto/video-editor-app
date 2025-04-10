@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useVideoEditor } from '../context/VideoEditorContext';
 import WaveSurfer from 'wavesurfer.js';
+import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions';
 
 function AudioWaveform() {
   const {
@@ -22,7 +23,9 @@ function AudioWaveform() {
         wavesurferRef.current.destroy();
       }
       
-      // Create new WaveSurfer instance
+      // Create new WaveSurfer instance with regions plugin
+      const regionsPlugin = RegionsPlugin.create();
+      
       wavesurferRef.current = WaveSurfer.create({
         container: waveformRef.current,
         waveColor: '#4F4A85',
@@ -35,10 +38,33 @@ function AudioWaveform() {
         barGap: 1,
         mediaControls: false,
         mediaType: 'video',
-        media: videoRef.current
+        media: videoRef.current,
+        plugins: [regionsPlugin]
       });
       
-      // Add event listeners
+      // Enable drag selection to create regions
+      regionsPlugin.enableDragSelection({
+        color: 'rgba(79, 74, 133, 0.3)',
+        handleStyle: {
+          left: {
+            backgroundColor: '#4F4A85'
+          },
+          right: {
+            backgroundColor: '#4F4A85'
+          }
+        }
+      });
+      
+      // Region event listeners
+      regionsPlugin.on('region-created', region => {
+        console.log('Region created:', region);
+      });
+      
+      regionsPlugin.on('region-updated', region => {
+        console.log('Region updated:', region);
+      });
+
+      // Add event listeners for main wavesurfer instance
       wavesurferRef.current.on('ready', () => {
         console.log('WaveSurfer is ready');
         if (videoRef.current) {
