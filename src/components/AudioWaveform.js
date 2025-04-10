@@ -8,9 +8,11 @@ function AudioWaveform() {
     videoRef,
     waveformRef,
     wavesurferRef,
+    regionsPluginRef,
     videoFile,
     setCurrentTime,
-    setDuration
+    setDuration,
+    trimHistory
   } = useVideoEditor();
 
   // Initialize WaveSurfer when video is loaded
@@ -25,6 +27,8 @@ function AudioWaveform() {
       
       // Create new WaveSurfer instance with regions plugin
       const regionsPlugin = RegionsPlugin.create();
+      // Store reference to the regions plugin
+      regionsPluginRef.current = regionsPlugin;
       
       wavesurferRef.current = WaveSurfer.create({
         container: waveformRef.current,
@@ -109,6 +113,29 @@ function AudioWaveform() {
       };
     }
   }, [videoFile]);
+
+  // Update region colors when trim history changes
+  useEffect(() => {
+    if (!regionsPluginRef.current) return;
+    
+    // Get all current regions from regions plugin
+    const regions = regionsPluginRef.current.getRegions();
+    
+    // Update color of regions that are in trim history
+    regions.forEach(region => {
+      const isTrimmed = trimHistory.some(trim => trim.id === region.id);
+      if (isTrimmed) {
+        // Change color to indicate it's in trim history
+        region.setOptions({
+          color: 'rgba(220, 53, 69, 0.3)', // Red color for trimmed regions
+          handleStyle: {
+            left: { backgroundColor: '#dc3545' },
+            right: { backgroundColor: '#dc3545' }
+          }
+        });
+      }
+    });
+  }, [trimHistory]);
 
   return (
     <div className="audio-waveform">

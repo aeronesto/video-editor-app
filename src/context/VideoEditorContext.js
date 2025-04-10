@@ -8,9 +8,11 @@ export function VideoEditorProvider({ children }) {
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [trimHistory, setTrimHistory] = useState([]);
   const videoRef = useRef(null);
   const waveformRef = useRef(null);
   const wavesurferRef = useRef(null);
+  const regionsPluginRef = useRef(null);
 
   const formatTime = (timeInSeconds) => {
     if (!timeInSeconds && timeInSeconds !== 0) return "00:00";
@@ -32,6 +34,34 @@ export function VideoEditorProvider({ children }) {
     }
   };
 
+  const addTrimsToHistory = () => {
+    if (!wavesurferRef.current || !regionsPluginRef.current) {
+      console.error("WaveSurfer or Regions plugin not initialized");
+      return;
+    }
+    
+    // Get all current regions from the plugin
+    const regions = regionsPluginRef.current.getRegions();
+    
+    if (regions.length === 0) {
+      console.log("No regions found to trim");
+      return;
+    }
+    
+    // Add selected regions to history and mark them as trimmed
+    const newTrims = regions.map(region => ({
+      id: region.id,
+      start: region.start,
+      end: region.end,
+      timestamp: new Date().toISOString()
+    }));
+    
+    setTrimHistory(prev => [...prev, ...newTrims]);
+    
+    // Update regions to show they're trimmed (will be handled in AudioWaveform component)
+    return newTrims;
+  };
+
   const value = {
     videoFile,
     setVideoFile,
@@ -41,9 +71,13 @@ export function VideoEditorProvider({ children }) {
     setCurrentTime,
     duration,
     setDuration,
+    trimHistory,
+    setTrimHistory,
+    addTrimsToHistory,
     videoRef,
     waveformRef,
     wavesurferRef,
+    regionsPluginRef,
     formatTime,
     togglePlayPause
   };
