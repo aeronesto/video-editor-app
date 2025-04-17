@@ -2,29 +2,92 @@
 
 A video editor application with transcription and audio waveform visualization.
 
-## Installation
+## Features
 
-1. Clone the repository
-2. Install dependencies:
+- Video uploading and preview
+- Audio waveform visualization using WaveSurfer.js
+- Video playback controls
+- Word-level transcription using WhisperX
+- Ability to seek to specific points in the video via waveform
+
+## Project Structure
+
+This project consists of two main components:
+
+1. **Frontend**: React application for video editing and transcription display
+2. **Backend**: WhisperX transcription server for generating word-level timestamps
+
+## Installation and Setup
+
+### Prerequisites
+
+- Node.js for the frontend
+- Python 3.10 specifically for the backend (WhisperX requires Python 3.9-3.12)
+- FFmpeg installed on your system
+
+### Frontend Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/aeronesto/video-editor-app.git
+cd video-editor-app
+```
+
+2. Install frontend dependencies:
 ```bash
 npm install
 ```
 
-After installing WaveSurfer.js, uncomment the WaveSurfer import and code sections in `src/pages/EditPage.js`.
+### Backend Setup
 
-## Features
+1. Navigate to the server directory:
+```bash
+cd server
+```
 
-- Video uploading and preview
-- Mock transcription display
-- Audio waveform visualization using WaveSurfer.js
-- Basic video playback controls
+2. Create a Python 3.10 virtual environment:
+```bash
+# For macOS/Linux
+python3.10 -m venv venv
+source venv/bin/activate
 
-## Development
+# For Windows
+python -m venv venv
+venv\Scripts\activate
+```
 
-Start the development server:
+3. Install backend dependencies:
+```bash
+pip install -r requirements.txt
+```
 
+## Running the Application
+
+### Start the Backend Server
+
+1. From the server directory with the virtual environment activated:
+```bash
+python -m uvicorn app:app --host 127.0.0.1 --port 8000
+```
+
+The backend server will start on http://localhost:8000
+
+### Start the Frontend
+
+1. In a separate terminal, from the project root:
 ```bash
 npm start
+```
+
+The frontend will start on http://localhost:3000
+
+## Testing the WhisperX Integration
+
+To verify WhisperX is working correctly with your system:
+
+```bash
+cd server
+python test_whisperx.py
 ```
 
 ## Following Along with Tutorial Videos

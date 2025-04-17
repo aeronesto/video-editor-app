@@ -17,6 +17,7 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
+venv_py310
 
 # IDE/Editor
 .vscode/
@@ -34,3 +35,4 @@ logs
 
 # Misc
 .cache/ 
+__pycache__/
