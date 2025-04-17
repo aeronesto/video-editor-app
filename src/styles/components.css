@@ -59,4 +59,83 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: white;
+}
+
+/* Transcription Section */
+.transcription-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.transcribe-button {
+  margin: 10px 0;
+  padding: 8px 16px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  align-self: flex-start;
+}
+
+.transcribe-button:hover {
+  background-color: #357abf;
+}
+
+.transcribe-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Transcription Panel */
+.transcription-panel {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.transcription-panel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 18px;
+}
+
+.transcription-content {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.transcript-segment {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.transcript-segment:last-child {
+  border-bottom: none;
+}
+
+.transcription-loading,
+.transcription-error {
+  padding: 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.transcription-loading {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.transcription-error {
+  background-color: #ffebee;
+  color: #c62828;
 } 
