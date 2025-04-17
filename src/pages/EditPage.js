@@ -10,7 +10,13 @@ import '../styles/EditPage.css';
 function EditPageContent() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { videoFile, setVideoFile } = useVideoEditor();
+  const { 
+    videoFile, 
+    setVideoFile, 
+    transcription, 
+    transcriptionLoading, 
+    generateTranscription 
+  } = useVideoEditor();
 
   // Load video data when component mounts
   useEffect(() => {
@@ -58,6 +64,12 @@ function EditPageContent() {
       });
   };
 
+  const handleTranscribeClick = () => {
+    if (!transcription && !transcriptionLoading) {
+      generateTranscription();
+    }
+  };
+
   if (!videoFile) {
     return <div>Loading...</div>;
   }
@@ -73,7 +85,17 @@ function EditPageContent() {
       </button>
       
       <div className="edit-content">
-        <TranscriptionPanel />
+        <div className="transcription-section">
+          <TranscriptionPanel />
+          <button
+            className="transcribe-button"
+            onClick={handleTranscribeClick}
+            disabled={transcription || transcriptionLoading}
+          >
+            {transcriptionLoading ? 'Transcribing...' : 
+             transcription ? 'Transcription Complete' : 'Generate Transcription'}
+          </button>
+        </div>
         <VideoPanel />
       </div>
       
