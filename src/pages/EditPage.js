@@ -12,10 +12,7 @@ function EditPageContent() {
   const location = useLocation();
   const { 
     videoFile, 
-    setVideoFile, 
-    transcription, 
-    transcriptionLoading, 
-    generateTranscription 
+    setVideoFile 
   } = useVideoEditor();
 
   // Load video data when component mounts
@@ -64,12 +61,6 @@ function EditPageContent() {
       });
   };
 
-  const handleTranscribeClick = () => {
-    if (!transcription && !transcriptionLoading) {
-      generateTranscription();
-    }
-  };
-
   if (!videoFile) {
     return <div>Loading...</div>;
   }
@@ -87,14 +78,6 @@ function EditPageContent() {
       <div className="edit-content">
         <div className="transcription-section">
           <TranscriptionPanel />
-          <button
-            className="transcribe-button"
-            onClick={handleTranscribeClick}
-            disabled={transcription || transcriptionLoading}
-          >
-            {transcriptionLoading ? 'Transcribing...' : 
-             transcription ? 'Transcription Complete' : 'Generate Transcription'}
-          </button>
         </div>
         <VideoPanel />
       </div>
