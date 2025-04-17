@@ -12,7 +12,9 @@ function AudioWaveform() {
     videoFile,
     setCurrentTime,
     setDuration,
-    trimHistory
+    trimHistory,
+    transcription,
+    findWordAtTime
   } = useVideoEditor();
 
   // Initialize WaveSurfer when video is loaded
@@ -30,19 +32,17 @@ function AudioWaveform() {
       // Store reference to the regions plugin
       regionsPluginRef.current = regionsPlugin;
       
-      wavesurferRef.current = WaveSurfer.create({
+      const wavesurfer = WaveSurfer.create({
         container: waveformRef.current,
-        waveColor: '#4F4A85',
-        progressColor: '#383351',
+        waveColor: '#4a90e2',
+        progressColor: '#2c56dd',
         height: 80,
-        responsive: true,
         cursorWidth: 2,
-        cursorColor: '#333',
+        cursorColor: '#ff0000',
         barWidth: 2,
         barGap: 1,
-        mediaControls: false,
-        mediaType: 'video',
-        media: videoRef.current,
+        barRadius: 3,
+        normalize: true,
         plugins: [regionsPlugin]
       });
       
@@ -69,25 +69,39 @@ function AudioWaveform() {
       });
 
       // Add event listeners for main wavesurfer instance
-      wavesurferRef.current.on('ready', () => {
+      wavesurfer.on('ready', () => {
         console.log('WaveSurfer is ready');
         if (videoRef.current) {
-          setDuration(videoRef.current.duration);
+          setDuration(wavesurfer.getDuration());
         }
+        
+        // Sync waveform with video time updates
+        videoRef.current.addEventListener('timeupdate', () => {
+          const currentVideoTime = videoRef.current.currentTime;
+          
+          if (Math.abs(currentVideoTime - wavesurfer.getCurrentTime()) > 0.5) {
+            wavesurfer.setCurrentTime(currentVideoTime);
+          }
+          
+          setCurrentTime(currentVideoTime);
+          
+          // Check for current word in transcription
+          if (transcription && findWordAtTime) {
+            const currentWord = findWordAtTime(currentVideoTime);
+            // You can use this to highlight the current word in your UI
+          }
+        });
       });
       
-      wavesurferRef.current.on('audioprocess', () => {
-        if (videoRef.current) {
-          setCurrentTime(videoRef.current.currentTime);
+      // Update video time when waveform is seeked
+      wavesurfer.on('seeking', (time) => {
+        if (videoRef.current && Math.abs(videoRef.current.currentTime - time) > 0.5) {
+          videoRef.current.currentTime = time;
+          setCurrentTime(time);
         }
       });
 
-      wavesurferRef.current.on('interaction', (progress) => {
-        if (videoRef.current) {
-          videoRef.current.currentTime = progress;
-          setCurrentTime(progress);
-        }
-      });
+      wavesurferRef.current = wavesurfer;
     };
 
     // Initialize when video is ready
@@ -112,7 +126,7 @@ function AudioWaveform() {
         }
       };
     }
-  }, [videoFile]);
+  }, [videoFile, videoRef]);
 
   // Update region colors when trim history changes
   useEffect(() => {
