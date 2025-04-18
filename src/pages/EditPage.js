@@ -5,7 +5,6 @@ import TranscriptionPanel from '../components/TranscriptionPanel';
 import VideoPanel from '../components/VideoPanel';
 import PlaybackControls from '../components/PlaybackControls';
 import AudioWaveform from '../components/AudioWaveform';
-import '../styles/EditPage.css';
 
 function EditPageContent() {
   const navigate = useNavigate();
