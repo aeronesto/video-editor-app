@@ -32,17 +32,19 @@ function AudioWaveform() {
       // Store reference to the regions plugin
       regionsPluginRef.current = regionsPlugin;
       
-      const wavesurfer = WaveSurfer.create({
+      wavesurferRef.current = WaveSurfer.create({
         container: waveformRef.current,
-        waveColor: '#4a90e2',
-        progressColor: '#2c56dd',
+        waveColor: '#4F4A85',
+        progressColor: '#383351',
         height: 80,
+        responsive: true,
         cursorWidth: 2,
-        cursorColor: '#ff0000',
+        cursorColor: '#333',
         barWidth: 2,
         barGap: 1,
-        barRadius: 3,
-        normalize: true,
+        mediaControls: false,
+        mediaType: 'video',
+        media: videoRef.current,
         plugins: [regionsPlugin]
       });
       
@@ -69,18 +71,18 @@ function AudioWaveform() {
       });
 
       // Add event listeners for main wavesurfer instance
-      wavesurfer.on('ready', () => {
+      wavesurferRef.current.on('ready', () => {
         console.log('WaveSurfer is ready');
         if (videoRef.current) {
-          setDuration(wavesurfer.getDuration());
+          setDuration(videoRef.current.duration);
         }
         
         // Sync waveform with video time updates
         videoRef.current.addEventListener('timeupdate', () => {
           const currentVideoTime = videoRef.current.currentTime;
           
-          if (Math.abs(currentVideoTime - wavesurfer.getCurrentTime()) > 0.5) {
-            wavesurfer.setCurrentTime(currentVideoTime);
+          if (Math.abs(currentVideoTime - wavesurferRef.current.getCurrentTime()) > 0.5) {
+            wavesurferRef.current.setCurrentTime(currentVideoTime);
           }
           
           setCurrentTime(currentVideoTime);
@@ -93,15 +95,18 @@ function AudioWaveform() {
         });
       });
       
-      // Update video time when waveform is seeked
-      wavesurfer.on('seeking', (time) => {
-        if (videoRef.current && Math.abs(videoRef.current.currentTime - time) > 0.5) {
-          videoRef.current.currentTime = time;
-          setCurrentTime(time);
+      wavesurferRef.current.on('audioprocess', () => {
+        if (videoRef.current) {
+          setCurrentTime(videoRef.current.currentTime);
         }
       });
 
-      wavesurferRef.current = wavesurfer;
+      wavesurferRef.current.on('interaction', (progress) => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = progress;
+          setCurrentTime(progress);
+        }
+      });
     };
 
     // Initialize when video is ready
@@ -157,7 +162,6 @@ function AudioWaveform() {
       <div 
         ref={waveformRef} 
         className="waveform-container"
-        style={{ width: '100%', height: '80px' }}
       />
     </div>
   );
