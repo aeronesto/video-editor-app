@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useRef } from 'react';
+import React, { createContext, useContext, useState, useRef, useCallback } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
 const VideoEditorContext = createContext();
@@ -65,7 +65,7 @@ export function VideoEditorProvider({ children }) {
   };
 
   // Manually trigger transcription for a video file
-  const generateTranscription = async (file = videoFile) => {
+  const generateTranscription = useCallback(async (file = videoFile) => {
     if (!file || !file.url) {
       console.error("No video file to transcribe");
       return;
@@ -127,7 +127,7 @@ export function VideoEditorProvider({ children }) {
     } finally {
       setTranscriptionLoading(false);
     }
-  };
+  }, [videoFile]);
 
   // Find the word at a specific time in the transcription
   const findWordAtTime = (time) => {

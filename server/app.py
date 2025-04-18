@@ -120,7 +120,7 @@ def cleanup_temp_file(file_path):
 
 def save_upload_file(upload_file: UploadFile) -> str:
     """Save an upload file to disk and return the file path"""
-    file_path = os.path.join(UPLOAD_DIR, upload_file.filename)
+    file_path = os.path.join(UPLOAD_DIR, f"{upload_file.filename.replace(' ', '_')}.mp4")
     
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(upload_file.file, buffer)

@@ -6,7 +6,8 @@ function TranscriptionPanel() {
   const [error, setError] = useState(null);
   
   useEffect(() => {
-    if (!videoFile || !videoFile.url) return;
+    // Skip if no video file or if already loading or if transcription already exists
+    if (!videoFile || !videoFile.url || transcriptionLoading || (transcription && transcription.segments)) return;
     
     // Use the context's generateTranscription function instead of duplicating logic
     generateTranscription(videoFile).catch(err => {
@@ -14,7 +15,7 @@ function TranscriptionPanel() {
       setError(err.message);
     });
     
-  }, [videoFile, generateTranscription]);
+  }, [videoFile, generateTranscription, transcriptionLoading, transcription]);
   
   if (error) {
     return (
