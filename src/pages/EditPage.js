@@ -11,7 +11,8 @@ function EditPageContent() {
   const location = useLocation();
   const { 
     videoFile, 
-    setVideoFile 
+    setVideoFile,
+    setTranscription 
   } = useVideoEditor();
 
   // Load video data when component mounts
@@ -31,7 +32,28 @@ function EditPageContent() {
     } else {
       loadDefaultVideo();
     }
-  }, [location]);
+  }, [location, setVideoFile]);
+
+  // Function to load default transcription
+  const loadDefaultTranscription = () => {
+    const defaultTranscriptionPath = '/transcription.json';
+    
+    fetch(defaultTranscriptionPath)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Setting default transcription:", data); 
+        setTranscription(data);
+      })
+      .catch(error => {
+        console.error('Error loading default transcription:', error);
+        setTranscription(null); 
+      });
+  };
 
   // Function to load default video
   const loadDefaultVideo = () => {
@@ -48,6 +70,7 @@ function EditPageContent() {
           url: url
         };
         setVideoFile(defaultVideo);
+        loadDefaultTranscription(); 
       })
       .catch(error => {
         console.error('Error loading default video:', error);
@@ -57,6 +80,7 @@ function EditPageContent() {
           url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
         };
         setVideoFile(defaultVideo);
+        loadDefaultTranscription(); 
       });
   };
 

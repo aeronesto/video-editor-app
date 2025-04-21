@@ -4,18 +4,19 @@ import { useVideoEditor } from '../context/VideoEditorContext';
 function TranscriptionPanel() {
   const { videoFile, transcription, transcriptionLoading, generateTranscription } = useVideoEditor();
   const [error, setError] = useState(null);
-  
-  useEffect(() => {
-    // Skip if no video file or if already loading or if transcription already exists
-    if (!videoFile || !videoFile.url || transcriptionLoading || (transcription && transcription.segments)) return;
+
+  // TODO: Enable this when we want to fetch the transcription from the back end. 
+  // useEffect(() => {
+  //   // Skip if no video file or if already loading or if transcription already exists
+  //   if (!videoFile || !videoFile.url || transcriptionLoading || (transcription && transcription.segments)) return;
     
-    // Use the context's generateTranscription function instead of duplicating logic
-    generateTranscription(videoFile).catch(err => {
-      console.error('Error transcribing video:', err);
-      setError(err.message);
-    });
+  //   // Use the context's generateTranscription function instead of duplicating logic
+  //   generateTranscription(videoFile).catch(err => {
+  //     console.error('Error transcribing video:', err);
+  //     setError(err.message);
+  //   });
     
-  }, [videoFile, generateTranscription, transcriptionLoading, transcription]);
+  // }, [videoFile, generateTranscription, transcriptionLoading, transcription]);
   
   if (error) {
     return (

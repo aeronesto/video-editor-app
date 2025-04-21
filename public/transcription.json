@@ -1,0 +1,1436 @@
+{
+    "text": " All right this is a 2016 Jeep Wrangler Sahara 75th anniversary. It's got all the upgrades you could want. Tires have minimal wear. It got maybe like 8,000 miles on the on the tires.  And then I added, it's got a hitch, a hitch extender for the bike rack. I took it to a 4x4 shop to get it inspected before I purchased it to see how much it had been wheeled and how good of a condition it is. And they told me that it was in excellent condition, so that's why I ended up buying it. And it's got this electronic step when you open the door. You got these handles, it's got custom interior, these suede seats, suede and leather, custom sound system, tinted windows. Super dark, you can't see inside. Interior is in excellent condition.  No stains. Nothing noticeable. There's no damage. It all looks in really good condition. It's got the Magnaflow exhaust so it sounds, it's got that low rumble. It sounds beautiful. The rear suspension shocks are also new. I just replaced those. It's got these custom door things so you can step on and climb onto the roof. Same with that one. Yeah, let me know if you have any questions.",
+    "segments": [
+        {
+            "id": 0,
+            "text": " All right this is a 2016 Jeep Wrangler Sahara 75th anniversary.",
+            "start": 0.251,
+            "end": 3.554,
+            "words": [
+                {
+                    "word": "All",
+                    "start": 0.251,
+                    "end": 0.391,
+                    "score": 0.362
+                },
+                {
+                    "word": "right",
+                    "start": 0.411,
+                    "end": 0.691,
+                    "score": 0.416
+                },
+                {
+                    "word": "this",
+                    "start": 0.892,
+                    "end": 1.092,
+                    "score": 0.276
+                },
+                {
+                    "word": "is",
+                    "start": 1.132,
+                    "end": 1.212,
+                    "score": 0.832
+                },
+                {
+                    "word": "a",
+                    "start": 1.312,
+                    "end": 1.392,
+                    "score": 0.431
+                },
+                {
+                    "word": "2016",
+                    "start": 0,
+                    "end": 0,
+                    "score": 0
+                },
+                {
+                    "word": "Jeep",
+                    "start": 1.812,
+                    "end": 1.912,
+                    "score": 0.247
+                },
+                {
+                    "word": "Wrangler",
+                    "start": 1.932,
+                    "end": 2.173,
+                    "score": 0.525
+                },
+                {
+                    "word": "Sahara",
+                    "start": 2.193,
+                    "end": 2.533,
+                    "score": 0.73
+                },
+                {
+                    "word": "75th",
+                    "start": 2.933,
+                    "end": 3.153,
+                    "score": 0.602
+                },
+                {
+                    "word": "anniversary.",
+                    "start": 3.193,
+                    "end": 3.554,
+                    "score": 0.547
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "text": "It's got all the upgrades you could want.",
+            "start": 4.114,
+            "end": 5.575,
+            "words": [
+                {
+                    "word": "It's",
+                    "start": 4.114,
+                    "end": 4.214,
+                    "score": 0.915
+                },
+                {
+                    "word": "got",
+                    "start": 4.254,
+                    "end": 4.414,
+                    "score": 0.844
+                },
+                {
+                    "word": "all",
+                    "start": 4.694,
+                    "end": 4.775,
+                    "score": 0.97
+                },
+                {
+                    "word": "the",
+                    "start": 4.795,
+                    "end": 4.855,
+                    "score": 0.865
+                },
+                {
+                    "word": "upgrades",
+                    "start": 4.875,
+                    "end": 5.115,
+                    "score": 0.377
+                },
+                {
+                    "word": "you",
+                    "start": 5.255,
+                    "end": 5.315,
+                    "score": 0.762
+                },
+                {
+                    "word": "could",
+                    "start": 5.335,
+                    "end": 5.435,
+                    "score": 0.208
+                },
+                {
+                    "word": "want.",
+                    "start": 5.455,
+                    "end": 5.575,
+                    "score": 0.822
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "text": "Tires have minimal wear.",
+            "start": 5.915,
+            "end": 6.896,
+            "words": [
+                {
+                    "word": "Tires",
+                    "start": 5.915,
+                    "end": 6.136,
+                    "score": 0.707
+                },
+                {
+                    "word": "have",
+                    "start": 6.176,
+                    "end": 6.336,
+                    "score": 0.868
+                },
+                {
+                    "word": "minimal",
+                    "start": 6.536,
+                    "end": 6.716,
+                    "score": 0.203
+                },
+                {
+                    "word": "wear.",
+                    "start": 6.736,
+                    "end": 6.896,
+                    "score": 0.575
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "text": "It got maybe like 8,000 miles on the on the tires.",
+            "start": 7.096,
+            "end": 9.278,
+            "words": [
+                {
+                    "word": "It",
+                    "start": 7.096,
+                    "end": 7.156,
+                    "score": 0.486
+                },
+                {
+                    "word": "got",
+                    "start": 7.196,
+                    "end": 7.276,
+                    "score": 0.846
+                },
+                {
+                    "word": "maybe",
+                    "start": 7.296,
+                    "end": 7.416,
+                    "score": 0.158
+                },
+                {
+                    "word": "like",
+                    "start": 7.436,
+                    "end": 7.537,
+                    "score": 0.804
+                },
+                {
+                    "word": "8,000",
+                    "start": 0,
+                    "end": 0,
+                    "score": 0
+                },
+                {
+                    "word": "miles",
+                    "start": 7.797,
+                    "end": 7.957,
+                    "score": 0.898
+                },
+                {
+                    "word": "on",
+                    "start": 7.997,
+                    "end": 8.037,
+                    "score": 0.901
+                },
+                {
+                    "word": "the",
+                    "start": 8.057,
+                    "end": 8.177,
+                    "score": 0.744
+                },
+                {
+                    "word": "on",
+                    "start": 8.938,
+                    "end": 8.998,
+                    "score": 0.754
+                },
+                {
+                    "word": "the",
+                    "start": 9.018,
+                    "end": 9.078,
+                    "score": 0.955
+                },
+                {
+                    "word": "tires.",
+                    "start": 9.098,
+                    "end": 9.278,
+                    "score": 0.801
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "text": " And then I added, it's got a hitch, a hitch extender for the bike rack.",
+            "start": 10.797,
+            "end": 13.578,
+            "words": [
+                {
+                    "word": "And",
+                    "start": 10.797,
+                    "end": 10.877,
+                    "score": 0.208
+                },
+                {
+                    "word": "then",
+                    "start": 10.897,
+                    "end": 11.057,
+                    "score": 0.923
+                },
+                {
+                    "word": "I",
+                    "start": 11.117,
+                    "end": 11.177,
+                    "score": 0.783
+                },
+                {
+                    "word": "added,",
+                    "start": 11.217,
+                    "end": 11.397,
+                    "score": 0.885
+                },
+                {
+                    "word": "it's",
+                    "start": 11.417,
+                    "end": 11.898,
+                    "score": 0.434
+                },
+                {
+                    "word": "got",
+                    "start": 11.918,
+                    "end": 11.978,
+                    "score": 0.123
+                },
+                {
+                    "word": "a",
+                    "start": 11.998,
+                    "end": 12.018,
+                    "score": 0.073
+                },
+                {
+                    "word": "hitch,",
+                    "start": 12.038,
+                    "end": 12.178,
+                    "score": 0.924
+                },
+                {
+                    "word": "a",
+                    "start": 12.358,
+                    "end": 12.498,
+                    "score": 0.763
+                },
+                {
+                    "word": "hitch",
+                    "start": 12.878,
+                    "end": 12.978,
+                    "score": 0.818
+                },
+                {
+                    "word": "extender",
+                    "start": 12.998,
+                    "end": 13.178,
+                    "score": 0.569
+                },
+                {
+                    "word": "for",
+                    "start": 13.198,
+                    "end": 13.258,
+                    "score": 0.903
+                },
+                {
+                    "word": "the",
+                    "start": 13.278,
+                    "end": 13.338,
+                    "score": 0.782
+                },
+                {
+                    "word": "bike",
+                    "start": 13.358,
+                    "end": 13.438,
+                    "score": 0.192
+                },
+                {
+                    "word": "rack.",
+                    "start": 13.458,
+                    "end": 13.578,
+                    "score": 0.541
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "text": "I took it to a 4x4 shop to get it inspected before I purchased it to see how much it had been wheeled and how good of a condition it is.",
+            "start": 13.698,
+            "end": 19.321,
+            "words": [
+                {
+                    "word": "I",
+                    "start": 13.698,
+                    "end": 13.738,
+                    "score": 0.928
+                },
+                {
+                    "word": "took",
+                    "start": 13.758,
+                    "end": 13.858,
+                    "score": 0.637
+                },
+                {
+                    "word": "it",
+                    "start": 13.878,
+                    "end": 14.059,
+                    "score": 0.362
+                },
+                {
+                    "word": "to",
+                    "start": 14.079,
+                    "end": 14.279,
+                    "score": 0.256
+                },
+                {
+                    "word": "a",
+                    "start": 14.319,
+                    "end": 14.359,
+                    "score": 0.291
+                },
+                {
+                    "word": "4x4",
+                    "start": 14.419,
+                    "end": 14.459,
+                    "score": 0.075
+                },
+                {
+                    "word": "shop",
+                    "start": 14.479,
+                    "end": 14.599,
+                    "score": 0.899
+                },
+                {
+                    "word": "to",
+                    "start": 14.619,
+                    "end": 14.699,
+                    "score": 0.387
+                },
+                {
+                    "word": "get",
+                    "start": 14.719,
+                    "end": 14.799,
+                    "score": 0.071
+                },
+                {
+                    "word": "it",
+                    "start": 14.819,
+                    "end": 14.899,
+                    "score": 0.306
+                },
+                {
+                    "word": "inspected",
+                    "start": 14.919,
+                    "end": 15.219,
+                    "score": 0.899
+                },
+                {
+                    "word": "before",
+                    "start": 15.419,
+                    "end": 15.579,
+                    "score": 0.946
+                },
+                {
+                    "word": "I",
+                    "start": 15.599,
+                    "end": 15.659,
+                    "score": 0.55
+                },
+                {
+                    "word": "purchased",
+                    "start": 15.679,
+                    "end": 15.899,
+                    "score": 0.531
+                },
+                {
+                    "word": "it",
+                    "start": 15.919,
+                    "end": 15.999,
+                    "score": 0.291
+                },
+                {
+                    "word": "to",
+                    "start": 16.019,
+                    "end": 16.059,
+                    "score": 0.954
+                },
+                {
+                    "word": "see",
+                    "start": 16.099,
+                    "end": 16.26,
+                    "score": 0.434
+                },
+                {
+                    "word": "how",
+                    "start": 17.6,
+                    "end": 17.66,
+                    "score": 0.997
+                },
+                {
+                    "word": "much",
+                    "start": 17.68,
+                    "end": 17.76,
+                    "score": 0.338
+                },
+                {
+                    "word": "it",
+                    "start": 17.78,
+                    "end": 17.82,
+                    "score": 0.02
+                },
+                {
+                    "word": "had",
+                    "start": 17.84,
+                    "end": 17.9,
+                    "score": 0.124
+                },
+                {
+                    "word": "been",
+                    "start": 17.92,
+                    "end": 18,
+                    "score": 0.499
+                },
+                {
+                    "word": "wheeled",
+                    "start": 18.02,
+                    "end": 18.22,
+                    "score": 0.843
+                },
+                {
+                    "word": "and",
+                    "start": 18.24,
+                    "end": 18.3,
+                    "score": 0.874
+                },
+                {
+                    "word": "how",
+                    "start": 18.681,
+                    "end": 18.741,
+                    "score": 0.964
+                },
+                {
+                    "word": "good",
+                    "start": 18.761,
+                    "end": 18.841,
+                    "score": 0.208
+                },
+                {
+                    "word": "of",
+                    "start": 18.861,
+                    "end": 18.901,
+                    "score": 0.015
+                },
+                {
+                    "word": "a",
+                    "start": 18.921,
+                    "end": 18.941,
+                    "score": 0.659
+                },
+                {
+                    "word": "condition",
+                    "start": 18.961,
+                    "end": 19.161,
+                    "score": 0.987
+                },
+                {
+                    "word": "it",
+                    "start": 19.181,
+                    "end": 19.221,
+                    "score": 0.49
+                },
+                {
+                    "word": "is.",
+                    "start": 19.241,
+                    "end": 19.321,
+                    "score": 0.79
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "text": "And they told me that it was in excellent condition, so that's why I ended up buying it.",
+            "start": 19.581,
+            "end": 21.862,
+            "words": [
+                {
+                    "word": "And",
+                    "start": 19.581,
+                    "end": 19.681,
+                    "score": 0.616
+                },
+                {
+                    "word": "they",
+                    "start": 19.721,
+                    "end": 19.821,
+                    "score": 0.206
+                },
+                {
+                    "word": "told",
+                    "start": 19.841,
+                    "end": 19.941,
+                    "score": 0.738
+                },
+                {
+                    "word": "me",
+                    "start": 19.961,
+                    "end": 20.001,
+                    "score": 0.982
+                },
+                {
+                    "word": "that",
+                    "start": 20.021,
+                    "end": 20.121,
+                    "score": 0.884
+                },
+                {
+                    "word": "it",
+                    "start": 20.281,
+                    "end": 20.321,
+                    "score": 0.006
+                },
+                {
+                    "word": "was",
+                    "start": 20.341,
+                    "end": 20.401,
+                    "score": 0.182
+                },
+                {
+                    "word": "in",
+                    "start": 20.421,
+                    "end": 20.462,
+                    "score": 0.435
+                },
+                {
+                    "word": "excellent",
+                    "start": 20.482,
+                    "end": 20.662,
+                    "score": 0.417
+                },
+                {
+                    "word": "condition,",
+                    "start": 20.682,
+                    "end": 20.882,
+                    "score": 0.469
+                },
+                {
+                    "word": "so",
+                    "start": 20.902,
+                    "end": 21.002,
+                    "score": 0.93
+                },
+                {
+                    "word": "that's",
+                    "start": 21.022,
+                    "end": 21.302,
+                    "score": 0.265
+                },
+                {
+                    "word": "why",
+                    "start": 21.322,
+                    "end": 21.382,
+                    "score": 0.007
+                },
+                {
+                    "word": "I",
+                    "start": 21.402,
+                    "end": 21.422,
+                    "score": 0.023
+                },
+                {
+                    "word": "ended",
+                    "start": 21.442,
+                    "end": 21.542,
+                    "score": 0.154
+                },
+                {
+                    "word": "up",
+                    "start": 21.562,
+                    "end": 21.602,
+                    "score": 0.203
+                },
+                {
+                    "word": "buying",
+                    "start": 21.622,
+                    "end": 21.742,
+                    "score": 0.304
+                },
+                {
+                    "word": "it.",
+                    "start": 21.782,
+                    "end": 21.862,
+                    "score": 0.422
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "text": "And it's got this electronic step when you open the door.",
+            "start": 22.502,
+            "end": 24.523,
+            "words": [
+                {
+                    "word": "And",
+                    "start": 22.502,
+                    "end": 22.562,
+                    "score": 0.854
+                },
+                {
+                    "word": "it's",
+                    "start": 22.603,
+                    "end": 22.683,
+                    "score": 0.631
+                },
+                {
+                    "word": "got",
+                    "start": 22.703,
+                    "end": 22.783,
+                    "score": 0.787
+                },
+                {
+                    "word": "this",
+                    "start": 22.803,
+                    "end": 22.903,
+                    "score": 0.549
+                },
+                {
+                    "word": "electronic",
+                    "start": 22.943,
+                    "end": 23.203,
+                    "score": 0.187
+                },
+                {
+                    "word": "step",
+                    "start": 23.223,
+                    "end": 23.303,
+                    "score": 0.497
+                },
+                {
+                    "word": "when",
+                    "start": 23.323,
+                    "end": 23.403,
+                    "score": 0.003
+                },
+                {
+                    "word": "you",
+                    "start": 24.063,
+                    "end": 24.183,
+                    "score": 0.192
+                },
+                {
+                    "word": "open",
+                    "start": 24.203,
+                    "end": 24.283,
+                    "score": 0.385
+                },
+                {
+                    "word": "the",
+                    "start": 24.303,
+                    "end": 24.363,
+                    "score": 0.515
+                },
+                {
+                    "word": "door.",
+                    "start": 24.383,
+                    "end": 24.523,
+                    "score": 0.691
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "text": "You got these handles, it's got custom interior, these suede seats, suede and leather, custom sound system, tinted windows.",
+            "start": 25.024,
+            "end": 30.266,
+            "words": [
+                {
+                    "word": "You",
+                    "start": 25.024,
+                    "end": 25.084,
+                    "score": 0.043
+                },
+                {
+                    "word": "got",
+                    "start": 25.104,
+                    "end": 25.184,
+                    "score": 0.356
+                },
+                {
+                    "word": "these",
+                    "start": 25.204,
+                    "end": 25.304,
+                    "score": 0.344
+                },
+                {
+                    "word": "handles,",
+                    "start": 25.324,
+                    "end": 25.524,
+                    "score": 0.779
+                },
+                {
+                    "word": "it's",
+                    "start": 25.544,
+                    "end": 25.644,
+                    "score": 0.119
+                },
+                {
+                    "word": "got",
+                    "start": 25.664,
+                    "end": 25.724,
+                    "score": 0.116
+                },
+                {
+                    "word": "custom",
+                    "start": 25.744,
+                    "end": 25.904,
+                    "score": 0.454
+                },
+                {
+                    "word": "interior,",
+                    "start": 25.924,
+                    "end": 26.244,
+                    "score": 0.721
+                },
+                {
+                    "word": "these",
+                    "start": 26.624,
+                    "end": 26.744,
+                    "score": 0.49
+                },
+                {
+                    "word": "suede",
+                    "start": 26.764,
+                    "end": 27.005,
+                    "score": 0.572
+                },
+                {
+                    "word": "seats,",
+                    "start": 27.045,
+                    "end": 27.245,
+                    "score": 0.878
+                },
+                {
+                    "word": "suede",
+                    "start": 27.385,
+                    "end": 27.485,
+                    "score": 0.253
+                },
+                {
+                    "word": "and",
+                    "start": 27.505,
+                    "end": 27.585,
+                    "score": 0.163
+                },
+                {
+                    "word": "leather,",
+                    "start": 27.605,
+                    "end": 27.805,
+                    "score": 0.907
+                },
+                {
+                    "word": "custom",
+                    "start": 28.465,
+                    "end": 28.685,
+                    "score": 0.331
+                },
+                {
+                    "word": "sound",
+                    "start": 28.705,
+                    "end": 28.825,
+                    "score": 0.655
+                },
+                {
+                    "word": "system,",
+                    "start": 28.845,
+                    "end": 29.086,
+                    "score": 0.555
+                },
+                {
+                    "word": "tinted",
+                    "start": 29.766,
+                    "end": 29.986,
+                    "score": 0.38
+                },
+                {
+                    "word": "windows.",
+                    "start": 30.006,
+                    "end": 30.266,
+                    "score": 0.665
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "text": "Super dark, you can't see inside.",
+            "start": 31.146,
+            "end": 32.067,
+            "words": [
+                {
+                    "word": "Super",
+                    "start": 31.146,
+                    "end": 31.307,
+                    "score": 0.709
+                },
+                {
+                    "word": "dark,",
+                    "start": 31.327,
+                    "end": 31.407,
+                    "score": 0.56
+                },
+                {
+                    "word": "you",
+                    "start": 31.427,
+                    "end": 31.487,
+                    "score": 0.013
+                },
+                {
+                    "word": "can't",
+                    "start": 31.507,
+                    "end": 31.607,
+                    "score": 0.243
+                },
+                {
+                    "word": "see",
+                    "start": 31.627,
+                    "end": 31.767,
+                    "score": 0.562
+                },
+                {
+                    "word": "inside.",
+                    "start": 31.807,
+                    "end": 32.067,
+                    "score": 0.759
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "text": "Interior is in excellent condition.",
+            "start": 33.267,
+            "end": 34.228,
+            "words": [
+                {
+                    "word": "Interior",
+                    "start": 33.267,
+                    "end": 33.588,
+                    "score": 0.723
+                },
+                {
+                    "word": "is",
+                    "start": 33.608,
+                    "end": 33.668,
+                    "score": 0.316
+                },
+                {
+                    "word": "in",
+                    "start": 33.688,
+                    "end": 33.728,
+                    "score": 0.816
+                },
+                {
+                    "word": "excellent",
+                    "start": 33.768,
+                    "end": 33.968,
+                    "score": 0.989
+                },
+                {
+                    "word": "condition.",
+                    "start": 33.988,
+                    "end": 34.228,
+                    "score": 0.897
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "text": " No stains.",
+            "start": 35.697,
+            "end": 36.137,
+            "words": [
+                {
+                    "word": "No",
+                    "start": 35.697,
+                    "end": 35.777,
+                    "score": 0.973
+                },
+                {
+                    "word": "stains.",
+                    "start": 35.817,
+                    "end": 36.137,
+                    "score": 0.833
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "text": "Nothing noticeable.",
+            "start": 36.758,
+            "end": 37.238,
+            "words": [
+                {
+                    "word": "Nothing",
+                    "start": 36.758,
+                    "end": 36.918,
+                    "score": 0.997
+                },
+                {
+                    "word": "noticeable.",
+                    "start": 36.938,
+                    "end": 37.238,
+                    "score": 0.816
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "text": "There's no damage.",
+            "start": 38.158,
+            "end": 39.059,
+            "words": [
+                {
+                    "word": "There's",
+                    "start": 38.158,
+                    "end": 38.358,
+                    "score": 0.371
+                },
+                {
+                    "word": "no",
+                    "start": 38.398,
+                    "end": 38.598,
+                    "score": 0.9
+                },
+                {
+                    "word": "damage.",
+                    "start": 38.859,
+                    "end": 39.059,
+                    "score": 0.279
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "text": "It all looks in really good condition.",
+            "start": 39.099,
+            "end": 40.619,
+            "words": [
+                {
+                    "word": "It",
+                    "start": 39.099,
+                    "end": 39.199,
+                    "score": 0.301
+                },
+                {
+                    "word": "all",
+                    "start": 39.259,
+                    "end": 39.319,
+                    "score": 0.16
+                },
+                {
+                    "word": "looks",
+                    "start": 39.339,
+                    "end": 39.479,
+                    "score": 0.256
+                },
+                {
+                    "word": "in",
+                    "start": 40.019,
+                    "end": 40.059,
+                    "score": 0.837
+                },
+                {
+                    "word": "really",
+                    "start": 40.079,
+                    "end": 40.199,
+                    "score": 0.034
+                },
+                {
+                    "word": "good",
+                    "start": 40.219,
+                    "end": 40.299,
+                    "score": 0.342
+                },
+                {
+                    "word": "condition.",
+                    "start": 40.319,
+                    "end": 40.619,
+                    "score": 0.896
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "text": "It's got the Magnaflow exhaust so it sounds, it's got that low rumble.",
+            "start": 40.859,
+            "end": 43.081,
+            "words": [
+                {
+                    "word": "It's",
+                    "start": 40.859,
+                    "end": 40.94,
+                    "score": 0.003
+                },
+                {
+                    "word": "got",
+                    "start": 40.96,
+                    "end": 41.04,
+                    "score": 0.474
+                },
+                {
+                    "word": "the",
+                    "start": 41.06,
+                    "end": 41.18,
+                    "score": 0.392
+                },
+                {
+                    "word": "Magnaflow",
+                    "start": 41.2,
+                    "end": 41.42,
+                    "score": 0.358
+                },
+                {
+                    "word": "exhaust",
+                    "start": 41.44,
+                    "end": 41.62,
+                    "score": 0.352
+                },
+                {
+                    "word": "so",
+                    "start": 41.64,
+                    "end": 41.68,
+                    "score": 0.175
+                },
+                {
+                    "word": "it",
+                    "start": 41.7,
+                    "end": 41.76,
+                    "score": 0.2
+                },
+                {
+                    "word": "sounds,",
+                    "start": 41.78,
+                    "end": 41.96,
+                    "score": 0.792
+                },
+                {
+                    "word": "it's",
+                    "start": 42.4,
+                    "end": 42.48,
+                    "score": 0.955
+                },
+                {
+                    "word": "got",
+                    "start": 42.5,
+                    "end": 42.58,
+                    "score": 0.86
+                },
+                {
+                    "word": "that",
+                    "start": 42.62,
+                    "end": 42.7,
+                    "score": 0.962
+                },
+                {
+                    "word": "low",
+                    "start": 42.74,
+                    "end": 42.84,
+                    "score": 0.91
+                },
+                {
+                    "word": "rumble.",
+                    "start": 42.88,
+                    "end": 43.081,
+                    "score": 0.926
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "text": "It sounds beautiful.",
+            "start": 43.141,
+            "end": 43.641,
+            "words": [
+                {
+                    "word": "It",
+                    "start": 43.141,
+                    "end": 43.201,
+                    "score": 0.242
+                },
+                {
+                    "word": "sounds",
+                    "start": 43.221,
+                    "end": 43.341,
+                    "score": 0.812
+                },
+                {
+                    "word": "beautiful.",
+                    "start": 43.361,
+                    "end": 43.641,
+                    "score": 0.902
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "text": "The rear suspension shocks are also new.",
+            "start": 45.141,
+            "end": 46.562,
+            "words": [
+                {
+                    "word": "The",
+                    "start": 45.141,
+                    "end": 45.342,
+                    "score": 0.838
+                },
+                {
+                    "word": "rear",
+                    "start": 45.482,
+                    "end": 45.622,
+                    "score": 0.838
+                },
+                {
+                    "word": "suspension",
+                    "start": 45.642,
+                    "end": 45.962,
+                    "score": 0.512
+                },
+                {
+                    "word": "shocks",
+                    "start": 45.982,
+                    "end": 46.142,
+                    "score": 0.736
+                },
+                {
+                    "word": "are",
+                    "start": 46.162,
+                    "end": 46.222,
+                    "score": 0.706
+                },
+                {
+                    "word": "also",
+                    "start": 46.242,
+                    "end": 46.402,
+                    "score": 0.9
+                },
+                {
+                    "word": "new.",
+                    "start": 46.442,
+                    "end": 46.562,
+                    "score": 0.703
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "text": "I just replaced those.",
+            "start": 46.862,
+            "end": 47.523,
+            "words": [
+                {
+                    "word": "I",
+                    "start": 46.862,
+                    "end": 46.922,
+                    "score": 0.903
+                },
+                {
+                    "word": "just",
+                    "start": 46.942,
+                    "end": 47.042,
+                    "score": 0.869
+                },
+                {
+                    "word": "replaced",
+                    "start": 47.062,
+                    "end": 47.303,
+                    "score": 0.796
+                },
+                {
+                    "word": "those.",
+                    "start": 47.323,
+                    "end": 47.523,
+                    "score": 0.924
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "text": "It's got these custom door things so you can step on and climb onto the roof.",
+            "start": 48.143,
+            "end": 50.744,
+            "words": [
+                {
+                    "word": "It's",
+                    "start": 48.143,
+                    "end": 48.223,
+                    "score": 0.753
+                },
+                {
+                    "word": "got",
+                    "start": 48.243,
+                    "end": 48.343,
+                    "score": 0.751
+                },
+                {
+                    "word": "these",
+                    "start": 48.363,
+                    "end": 48.523,
+                    "score": 0.866
+                },
+                {
+                    "word": "custom",
+                    "start": 48.543,
+                    "end": 48.823,
+                    "score": 0.857
+                },
+                {
+                    "word": "door",
+                    "start": 49.083,
+                    "end": 49.223,
+                    "score": 0.667
+                },
+                {
+                    "word": "things",
+                    "start": 49.243,
+                    "end": 49.383,
+                    "score": 0.919
+                },
+                {
+                    "word": "so",
+                    "start": 49.403,
+                    "end": 49.464,
+                    "score": 0.182
+                },
+                {
+                    "word": "you",
+                    "start": 49.484,
+                    "end": 49.544,
+                    "score": 0.242
+                },
+                {
+                    "word": "can",
+                    "start": 49.564,
+                    "end": 49.644,
+                    "score": 0.898
+                },
+                {
+                    "word": "step",
+                    "start": 49.904,
+                    "end": 50.064,
+                    "score": 0.821
+                },
+                {
+                    "word": "on",
+                    "start": 50.104,
+                    "end": 50.184,
+                    "score": 0.92
+                },
+                {
+                    "word": "and",
+                    "start": 50.204,
+                    "end": 50.264,
+                    "score": 0.385
+                },
+                {
+                    "word": "climb",
+                    "start": 50.284,
+                    "end": 50.384,
+                    "score": 0.11
+                },
+                {
+                    "word": "onto",
+                    "start": 50.404,
+                    "end": 50.504,
+                    "score": 0.461
+                },
+                {
+                    "word": "the",
+                    "start": 50.524,
+                    "end": 50.584,
+                    "score": 0.505
+                },
+                {
+                    "word": "roof.",
+                    "start": 50.604,
+                    "end": 50.744,
+                    "score": 0.91
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "text": "Same with that one.",
+            "start": 50.984,
+            "end": 51.404,
+            "words": [
+                {
+                    "word": "Same",
+                    "start": 50.984,
+                    "end": 51.084,
+                    "score": 0.268
+                },
+                {
+                    "word": "with",
+                    "start": 51.104,
+                    "end": 51.184,
+                    "score": 0.695
+                },
+                {
+                    "word": "that",
+                    "start": 51.204,
+                    "end": 51.284,
+                    "score": 0.142
+                },
+                {
+                    "word": "one.",
+                    "start": 51.344,
+                    "end": 51.404,
+                    "score": 0.694
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "text": "Yeah, let me know if you have any questions.",
+            "start": 51.424,
+            "end": 54.566,
+            "words": [
+                {
+                    "word": "Yeah,",
+                    "start": 51.424,
+                    "end": 52.745,
+                    "score": 0.704
+                },
+                {
+                    "word": "let",
+                    "start": 52.845,
+                    "end": 53.565,
+                    "score": 0.872
+                },
+                {
+                    "word": "me",
+                    "start": 53.886,
+                    "end": 53.926,
+                    "score": 0
+                },
+                {
+                    "word": "know",
+                    "start": 53.946,
+                    "end": 54.026,
+                    "score": 0.096
+                },
+                {
+                    "word": "if",
+                    "start": 54.046,
+                    "end": 54.086,
+                    "score": 0.011
+                },
+                {
+                    "word": "you",
+                    "start": 54.106,
+                    "end": 54.166,
+                    "score": 0.016
+                },
+                {
+                    "word": "have",
+                    "start": 54.186,
+                    "end": 54.266,
+                    "score": 0.027
+                },
+                {
+                    "word": "any",
+                    "start": 54.306,
+                    "end": 54.366,
+                    "score": 0.252
+                },
+                {
+                    "word": "questions.",
+                    "start": 54.386,
+                    "end": 54.566,
+                    "score": 0.453
+                }
+            ]
+        }
+    ],
+    "language": "en"
+}
