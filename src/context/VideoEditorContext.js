@@ -17,6 +17,69 @@ export function VideoEditorProvider({ children }) {
   const wavesurferRef = useRef(null);
   const regionsPluginRef = useRef(null);
 
+  // Function to add unique items to trim history, avoiding duplicates
+  const addUniqueTrimHistoryItems = useCallback((newItems) => {
+    setTrimHistory(prevItems => {
+      // Create a new array with existing items
+      let allItems = [...prevItems];
+      
+      // Check each new item to see if it's already in the list
+      newItems.forEach(newItem => {
+        // Look for duplicates based on ID (exact match) and start/end times (close enough match)
+        const isDuplicate = allItems.some(existingItem => 
+          existingItem.id === newItem.id || 
+          (Math.abs(existingItem.start - newItem.start) < 0.001 && 
+           Math.abs(existingItem.end - newItem.end) < 0.001)
+        );
+        
+        if (!isDuplicate) {
+          allItems.push(newItem);
+        } else {
+          console.log(`Skipping duplicate trim: ${newItem.id}`);
+        }
+      });
+      
+      // Now handle overlapping items by merging them
+      // First, sort all items by start time
+      allItems.sort((a, b) => a.start - b.start);
+      
+      // Array to hold the final merged items
+      const mergedItems = [];
+      
+      // If we have items to process
+      if (allItems.length > 0) {
+        // Start with the first item
+        let currentMerged = { ...allItems[0] };
+        
+        // Process the rest of the items
+        for (let i = 1; i < allItems.length; i++) {
+          const nextItem = allItems[i];
+          
+          // Check if current merged item overlaps with the next item
+          if (currentMerged.end >= nextItem.start) {
+            currentMerged.end = Math.max(currentMerged.end, nextItem.end);
+            currentMerged.start = Math.min(currentMerged.start, nextItem.start);
+            // Create a new ID that shows this is a merged item
+            currentMerged.id = `merged-${currentMerged.start.toFixed(3)}-${currentMerged.end.toFixed(3)}`;
+            
+            console.log(`Merged overlapping items into: ${currentMerged.id}`);
+          } else {
+            // No overlap, add the current merged item to the result
+            mergedItems.push(currentMerged);
+            // Start a new merged item
+            currentMerged = { ...nextItem };
+          }
+        }
+        
+        // Add the last merged item
+        mergedItems.push(currentMerged);
+      }
+      
+      console.log(`Original items: ${allItems.length}, After merging: ${mergedItems.length}`);
+      return mergedItems;
+    });
+  }, []);
+
   const formatTime = (timeInSeconds) => {
     if (!timeInSeconds && timeInSeconds !== 0) return "00:00";
     const minutes = Math.floor(timeInSeconds / 60);
@@ -59,7 +122,8 @@ export function VideoEditorProvider({ children }) {
       timestamp: new Date().toISOString()
     }));
     
-    setTrimHistory(prev => [...prev, ...newTrims]);
+    // Use the unique items function instead of directly calling setTrimHistory
+    addUniqueTrimHistoryItems(newTrims);
     
     // Update regions to show they're trimmed (will be handled in AudioWaveform component)
     return newTrims;
@@ -166,15 +230,15 @@ export function VideoEditorProvider({ children }) {
 
     if (detectedSilences.length > 0) {
       console.log(`Detected ${detectedSilences.length} silence gaps >= ${threshold}s.`);
-      // Add the detected silences to the existing trim history
-      setTrimHistory(prev => [...prev, ...detectedSilences]);
+      // Use the unique items function instead of directly calling setTrimHistory
+      addUniqueTrimHistoryItems(detectedSilences);
     } else {
       console.log(`No silence gaps found >= ${threshold}s.`);
     }
     
     return detectedSilences; // Return the detected silences
 
-  }, [transcription, setTrimHistory, duration]);
+  }, [transcription, addUniqueTrimHistoryItems, duration]);
 
   // Manually trigger transcription for a video file
   const generateTranscription = useCallback(async (file = videoFile) => {
@@ -271,7 +335,7 @@ export function VideoEditorProvider({ children }) {
     duration,
     setDuration,
     trimHistory,
-    setTrimHistory,
+    addUniqueTrimHistoryItems,
     addTrimsToHistory,
     detectSilences,
     silenceThreshold,
