@@ -133,27 +133,71 @@ function AudioWaveform() {
     }
   }, [videoFile, videoRef]);
 
-  // Update region colors when trim history changes
+  // Handle trim history changes - create new regions and update existing ones
   useEffect(() => {
-    if (!regionsPluginRef.current) return;
-    
-    // Get all current regions from regions plugin
-    const regions = regionsPluginRef.current.getRegions();
-    
-    // Update color of regions that are in trim history
-    regions.forEach(region => {
-      const isTrimmed = trimHistory.some(trim => trim.id === region.id);
-      if (isTrimmed) {
-        // Change color to indicate it's in trim history
-        region.setOptions({
-          color: 'rgba(220, 53, 69, 0.3)', // Red color for trimmed regions
-          handleStyle: {
-            left: { backgroundColor: '#dc3545' },
-            right: { backgroundColor: '#dc3545' }
-          }
-        });
+    try {
+      if (!regionsPluginRef.current || !wavesurferRef.current) return;
+      console.log('wavesurferRef.current.isReady', wavesurferRef.current.isReady);
+
+      
+      // Make sure wavesurfer is ready before adding regions
+      if (!wavesurferRef.current) {
+        const handleReady = () => {
+          handleTrimHistoryChange();
+          wavesurferRef.current.un('ready', handleReady);
+        };
+        
+        wavesurferRef.current.on('ready', handleReady);
+        return;
       }
-    });
+      
+      handleTrimHistoryChange();
+    } catch (error) {
+      console.error('Error handling trim history changes:', error);
+    }
+    
+    function handleTrimHistoryChange() {
+      console.log('handleTrimHistoryChange');
+      // Get existing regions to work with
+      const existingRegions = regionsPluginRef.current.getRegions();
+      const existingRegionIds = new Set(existingRegions.map(region => region.id));
+      
+      // 1. Create regions for trim history items that don't already have regions
+      trimHistory.forEach(trim => {
+        if (!existingRegionIds.has(trim.id)) {
+          // Create a new region using the trim data
+          const regionOptions = {
+            id: trim.id,
+            start: trim.start,
+            end: trim.end,
+            color: trim.color || 'rgba(220, 53, 69, 0.3)', // Use provided color or default to red
+            handleStyle: trim.handleStyle || {
+              left: { backgroundColor: '#dc3545' },
+              right: { backgroundColor: '#dc3545' }
+            }
+          };
+          
+          // Add the region to the waveform
+          regionsPluginRef.current.addRegion(regionOptions);
+          console.log(`Created region for trim history item: ${trim.id}`);
+        }
+      });
+      
+      // 2. Update colors of existing regions based on trim history
+      existingRegions.forEach(region => {
+        const trimItem = trimHistory.find(trim => trim.id === region.id);
+        if (trimItem) {
+          // Apply colors from the trim history item or use defaults
+          region.setOptions({
+            color: trimItem.color || 'rgba(220, 53, 69, 0.3)', // Use color from trim item or default to red
+            handleStyle: trimItem.handleStyle || {
+              left: { backgroundColor: '#dc3545' },
+              right: { backgroundColor: '#dc3545' }
+            }
+          });
+        }
+      });
+    }
   }, [trimHistory]);
 
   return (
