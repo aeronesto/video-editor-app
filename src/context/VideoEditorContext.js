@@ -11,6 +11,7 @@ export function VideoEditorProvider({ children }) {
   const [trimHistory, setTrimHistory] = useState([]);
   const [transcription, setTranscription] = useState(null);
   const [transcriptionLoading, setTranscriptionLoading] = useState(false);
+  const [silenceThreshold, setSilenceThreshold] = useState(0.8);
   const videoRef = useRef(null);
   const waveformRef = useRef(null);
   const wavesurferRef = useRef(null);
@@ -63,6 +64,117 @@ export function VideoEditorProvider({ children }) {
     // Update regions to show they're trimmed (will be handled in AudioWaveform component)
     return newTrims;
   };
+
+  // Function to detect silences based on transcription word timings
+  const detectSilences = useCallback((threshold) => {
+    if (!transcription || !transcription.segments || transcription.segments.length === 0) {
+      console.log("Transcription data not available or empty.");
+      return [];
+    }
+
+    const detectedSilences = [];
+    let lastWordEndTime = 0; // Initialize with 0 for the gap before the very first word
+
+    // Iterate through each segment
+    transcription.segments.forEach((segment, segmentIndex) => {
+      if (!segment.words || segment.words.length === 0) {
+        // If a segment has no words, consider the entire segment duration as potential silence 
+        // relative to the previous word or the start of the video.
+        // This might need more nuanced handling depending on requirements.
+        // For now, we only calculate gaps between words.
+        console.warn(`Segment ${segment.id} has no word timestamps.`);
+        return; // Skip segments without words for gap calculation
+      }
+      
+      // Check gap between the last word of the previous segment and the first word of this segment
+      if (segmentIndex > 0) {
+           const prevSegment = transcription.segments[segmentIndex - 1];
+           if (prevSegment.words && prevSegment.words.length > 0) {
+               const lastWordOfPrevSegment = prevSegment.words[prevSegment.words.length - 1];
+               const firstWordOfCurrentSegment = segment.words[0];
+               const interSegmentGap = firstWordOfCurrentSegment.start - lastWordOfPrevSegment.end;
+
+               if (interSegmentGap >= threshold) {
+                   detectedSilences.push({
+                       id: `silence-${lastWordOfPrevSegment.end.toFixed(3)}-${firstWordOfCurrentSegment.start.toFixed(3)}`,
+                       start: lastWordOfPrevSegment.end,
+                       end: firstWordOfCurrentSegment.start,
+                       color: 'rgba(255, 165, 0, 0.3)', // Orange for silence regions
+                       handleStyle: { left: { backgroundColor: '#FFA500' }, right: { backgroundColor: '#FFA500' } },
+                       timestamp: new Date().toISOString()
+                   });
+               }
+           }
+      } else {
+          // Potentially check gap from video start to the first word?
+          const firstWord = segment.words[0];
+          if (firstWord.start >= threshold) {
+            detectedSilences.push({
+              id: `silence-0-${firstWord.start.toFixed(3)}`,
+              start: 0,
+              end: firstWord.start,
+              color: 'rgba(255, 165, 0, 0.3)', // Orange for silence regions
+              handleStyle: { left: { backgroundColor: '#FFA500' }, right: { backgroundColor: '#FFA500' } },
+              timestamp: new Date().toISOString()
+            });
+          } 
+          // Let's only focus on gaps between words for now.
+      }
+
+      // Iterate through words within the current segment
+      segment.words.forEach((word, wordIndex) => {
+        if (wordIndex < segment.words.length - 1) {
+          const nextWord = segment.words[wordIndex + 1];
+          const gap = nextWord.start - word.end;
+
+          if (gap >= threshold) {
+            // Found a silence gap exceeding the threshold
+            detectedSilences.push({
+              id: `silence-${word.end.toFixed(3)}-${nextWord.start.toFixed(3)}`, // Unique ID based on times
+              start: word.end,
+              end: nextWord.start,
+              color: 'rgba(255, 165, 0, 0.3)', // Orange color for silence regions
+              handleStyle: { left: { backgroundColor: '#FFA500' }, right: { backgroundColor: '#FFA500' } },
+              timestamp: new Date().toISOString() 
+            });
+          }
+        }
+        lastWordEndTime = word.end; // Update the end time of the last processed word
+      });
+    });
+    
+    // Check gap from the very last word to the end of the video (optional)
+    if (transcription.segments.length > 0 && duration > 0) {
+        const lastSegment = transcription.segments[transcription.segments.length - 1];
+        if (lastSegment.words && lastSegment.words.length > 0) {
+            const lastWord = lastSegment.words[lastSegment.words.length - 1];
+            const finalGap = duration - lastWord.end;
+            if (finalGap >= threshold) {
+              // Found a silence gap exceeding the threshold
+              detectedSilences.push({
+                id: `silence-${lastWord.end.toFixed(3)}-${duration}`, // Unique ID based on times
+                start: lastWord.end,
+                end: duration,
+                color: 'rgba(255, 165, 0, 0.3)', // Orange color for silence regions
+                handleStyle: { left: { backgroundColor: '#FFA500' }, right: { backgroundColor: '#FFA500' } },
+                timestamp: new Date().toISOString() 
+              });
+            }
+        }
+    }
+
+
+    if (detectedSilences.length > 0) {
+      console.log(`Detected ${detectedSilences.length} silence gaps >= ${threshold}s.`);
+      // Add the detected silences to the existing trim history
+      setTrimHistory(prev => [...prev, ...detectedSilences]);
+    } else {
+      console.log(`No silence gaps found >= ${threshold}s.`);
+    }
+    
+    return detectedSilences; // Return the detected silences
+
+  }, [transcription, setTrimHistory, duration]);
 
   // Manually trigger transcription for a video file
   const generateTranscription = useCallback(async (file = videoFile) => {
@@ -161,6 +273,9 @@ export function VideoEditorProvider({ children }) {
     trimHistory,
     setTrimHistory,
     addTrimsToHistory,
+    detectSilences,
+    silenceThreshold,
+    setSilenceThreshold,
     transcription,
     setTranscription,
     transcriptionLoading,
