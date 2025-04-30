@@ -1,4 +1,6 @@
 #!/bin/bash
+# Ensure script runs in its own directory
+cd "$(dirname "$0")"
 
 # Activate virtual environment if it exists
 if [ -d "venv" ]; then
@@ -26,4 +28,4 @@ export OMP_NUM_THREADS=1  # Prevents issues with parallel processing
 export MKL_NUM_THREADS=1  # For Intel MKL
 
 echo "Starting FastAPI server..."
-python -m uvicorn app:app --host 127.0.0.1 --port 8000 --log-level info 
+python -m uvicorn main:app --host 127.0.0.1 --port 8000 --log-level info

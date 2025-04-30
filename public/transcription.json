@@ -39,9 +39,9 @@
                 },
                 {
                     "word": "2016",
-                    "start": 0,
-                    "end": 0,
-                    "score": 0
+                    "start": 1.4,
+                    "end": 1.55,
+                    "score": 0.99
                 },
                 {
                     "word": "Jeep",
@@ -195,9 +195,9 @@
                 },
                 {
                     "word": "8,000",
-                    "start": 0,
-                    "end": 0,
-                    "score": 0
+                    "start": 7.6,
+                    "end": 7.7,
+                    "score": 0.99
                 },
                 {
                     "word": "miles",
@@ -445,8 +445,8 @@
                 },
                 {
                     "word": "how",
-                    "start": 17.6,
-                    "end": 17.66,
+                    "start": 16.8,
+                    "end": 16.9,
                     "score": 0.997
                 },
                 {
