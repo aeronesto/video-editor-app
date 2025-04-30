@@ -4,9 +4,10 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
  * Transcribe a Blob video by uploading to the backend.
  * @param {string} blobUrl - URL.createObjectURL(videoBlob)
  * @param {string} fileName - name of the file (e.g. 'video.mp4')
+ * @param {Object} options - Additional transcription options
  * @returns {Promise<Object>} transcription data
  */
-export async function transcribeBlob(blobUrl, fileName) {
+export async function transcribeBlob(blobUrl, fileName, options = {}) {
   const resp = await fetch(blobUrl);
   if (!resp.ok) {
     throw new Error(`Failed to fetch blob: ${resp.statusText}`);
@@ -14,6 +15,15 @@ export async function transcribeBlob(blobUrl, fileName) {
   const blob = await resp.blob();
   const formData = new FormData();
   formData.append('file', blob, fileName);
+  
+  // Add optional parameters if provided
+  if (options.model_name) formData.append('model_name', options.model_name);
+  if (options.batch_size) formData.append('batch_size', options.batch_size);
+  if (options.language) formData.append('language', options.language);
+  if (options.align_model) formData.append('align_model', options.align_model);
+  if (options.highlight_words !== undefined) formData.append('highlight_words', options.highlight_words);
+  if (options.vad_onset !== undefined) formData.append('vad_onset', options.vad_onset);
+  
   const response = await fetch(`${BASE_URL}/transcribe/`, {
     method: 'POST',
     body: formData
@@ -38,6 +48,13 @@ export async function transcribeFile(filePath, options = {}) {
     compute_type: options.compute_type || 'float32',
     batch_size: options.batch_size || 8
   };
+  
+  // Add optional parameters for improved transcription accuracy
+  if (options.language) payload.language = options.language;
+  if (options.align_model) payload.align_model = options.align_model;
+  if (options.highlight_words !== undefined) payload.highlight_words = options.highlight_words;
+  if (options.vad_onset !== undefined) payload.vad_onset = options.vad_onset;
+  
   const response = await fetch(`${BASE_URL}/transcribe-file/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

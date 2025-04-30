@@ -44,17 +44,20 @@ def load_asr_model(model_name: str, device: str, compute_type: str):
         logger.error(f"Failed to load ASR model: {e}")
         raise HTTPException(status_code=500, detail="Could not load ASR model")
 
-def get_align_model(language_code: str):
+def get_align_model(language_code: str, align_model: Optional[str] = None):
     global align_models
-    if language_code in align_models:
-        return align_models[language_code]
+    model_key = f"{language_code}_{align_model if align_model else 'default'}"
+    if model_key in align_models:
+        return align_models[model_key]
     try:
-        logger.info(f"Loading alignment model for language: {language_code}")
+        logger.info(f"Loading alignment model for language: {language_code}" + 
+                  (f" using model: {align_model}" if align_model else ""))
         model_a, metadata = whisperx.load_align_model(
             language_code=language_code,
-            device=config.DEVICE
+            device=config.DEVICE,
+            model_name=align_model
         )
-        align_models[language_code] = (model_a, metadata)
+        align_models[model_key] = (model_a, metadata)
         return model_a, metadata
     except Exception as e:
         logger.error(f"Failed to load alignment model: {e}")
@@ -83,6 +86,9 @@ class TranscriptionRequest(BaseModel):
     language: Optional[str] = None
     compute_type: str = config.COMPUTE_TYPE
     batch_size: int = 8
+    align_model: Optional[str] = None
+    highlight_words: bool = False
+    vad_onset: Optional[float] = None
 
 class WordLevel(BaseModel):
     word: str
@@ -109,6 +115,9 @@ async def transcribe_audio(
     model_name: str = config.ASR_MODEL_NAME,
     language: Optional[str] = None,
     batch_size: int = 8,
+    align_model: Optional[str] = None,
+    highlight_words: bool = False,
+    vad_onset: Optional[float] = None,
 ):
     """
     Upload and transcribe a video/audio file.
@@ -120,10 +129,18 @@ async def transcribe_audio(
         logger.info(f"Saved uploaded file to {file_path}")
         # Load and transcribe
         audio = whisperx.load_audio(file_path)
-        result = asr.transcribe(audio, batch_size=batch_size, language=language)
+        
+        # Apply VAD parameters if provided
+        vad_parameters = {}
+        if vad_onset is not None:
+            vad_parameters["vad_onset"] = vad_onset
+            logger.info(f"Using custom VAD onset: {vad_onset}")
+        
+        result = asr.transcribe(audio, batch_size=batch_size, language=language, **vad_parameters)
         language_code = result.get("language")
+        
         # Align for word-level timestamps
-        model_a, metadata = get_align_model(language_code)
+        model_a, metadata = get_align_model(language_code, align_model)
         result = whisperx.align(
             result.get("segments", []),
             model_a,
@@ -132,6 +149,7 @@ async def transcribe_audio(
             config.DEVICE,
             return_char_alignments=False,
         )
+        
         # Format output
         text = " ".join([seg.get("text", "") for seg in result.get("segments", [])])
         segments = []
@@ -141,9 +159,15 @@ async def transcribe_audio(
                 id=seg.get("id"), text=seg.get("text"),
                 start=seg.get("start"), end=seg.get("end"), words=words
             ))
+        
         # Schedule cleanup
         background_tasks.add_task(cleanup_temp_file, file_path)
-        return JSONResponse(content={"text": text, "segments": segments, "language": language_code})
+        
+        response_data = {"text": text, "segments": segments, "language": language_code}
+        if highlight_words:
+            response_data["highlight_words"] = True
+            
+        return JSONResponse(content=response_data)
     except HTTPException:
         raise
     except Exception as e:
@@ -156,17 +180,26 @@ async def transcribe_file_endpoint(request: TranscriptionRequest):
     Transcribe a file already on the server.
     """
     try:
-        asr = load_asr_model(request.model_name, config.DEVICE, config.COMPUTE_TYPE)
+        asr = load_asr_model(request.model_name, config.DEVICE, request.compute_type)
         audio = whisperx.load_audio(request.file_path)
+        
+        # Apply VAD parameters if provided
+        vad_parameters = {}
+        if request.vad_onset is not None:
+            vad_parameters["vad_onset"] = request.vad_onset
+            logger.info(f"Using custom VAD onset: {request.vad_onset}")
+            
         result = asr.transcribe(
-            audio, batch_size=request.batch_size, language=request.language
+            audio, batch_size=request.batch_size, language=request.language, **vad_parameters
         )
         language_code = result.get("language")
-        model_a, metadata = get_align_model(language_code)
+        
+        model_a, metadata = get_align_model(language_code, request.align_model)
         result = whisperx.align(
             result.get("segments", []), model_a, metadata,
             audio, config.DEVICE, return_char_alignments=False
         )
+        
         text = " ".join([seg.get("text", "") for seg in result.get("segments", [])])
         segments = []
         for seg in result.get("segments", []):
@@ -175,7 +208,12 @@ async def transcribe_file_endpoint(request: TranscriptionRequest):
                 id=seg.get("id"), text=seg.get("text"),
                 start=seg.get("start"), end=seg.get("end"), words=words
             ))
-        return JSONResponse(content={"text": text, "segments": segments, "language": language_code})
+            
+        response_data = {"text": text, "segments": segments, "language": language_code}
+        if request.highlight_words:
+            response_data["highlight_words"] = True
+            
+        return JSONResponse(content=response_data)
     except HTTPException:
         raise
     except Exception as e:

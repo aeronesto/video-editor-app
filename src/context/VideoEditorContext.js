@@ -19,7 +19,15 @@ export function VideoEditorProvider({ children }) {
   const wavesurferRef = useRef(null);
   const regionsPluginRef = useRef(null);
 
-
+  // WhisperX transcription parameters for accurate word-level timestamps
+  const transcriptionOptions = {
+    model_name: 'large-v2',
+    align_model: 'WAV2VEC2_ASR_LARGE_LV60K_960H',
+    batch_size: 4,
+    compute_type: 'int8',
+    highlight_words: true,
+    vad_onset: 0.45
+  };
 
   const togglePlayPause = () => {
     if (videoRef.current) {
@@ -74,7 +82,7 @@ export function VideoEditorProvider({ children }) {
   }, [transcription, duration]);
 
   // Manually trigger transcription for a video file
-  const generateTranscription = useCallback(async (file = videoFile) => {
+  const generateTranscription = useCallback(async (file = videoFile, options = {}) => {
     if (!file?.url) {
       console.error('No video file to transcribe');
       return;
@@ -82,10 +90,13 @@ export function VideoEditorProvider({ children }) {
     setTranscriptionLoading(true);
     try {
       let data;
+      // Merge default options with any custom options
+      const transcribeOptions = { ...transcriptionOptions, ...options };
+      
       if (file.url.startsWith('blob:')) {
-        data = await transcribeBlob(file.url, file.name || 'video.mp4');
+        data = await transcribeBlob(file.url, file.name || 'video.mp4', transcribeOptions);
       } else {
-        data = await transcribeFile(file.url, {});
+        data = await transcribeFile(file.url, transcribeOptions);
       }
       setTranscription(data);
     } catch (err) {
@@ -140,7 +151,8 @@ export function VideoEditorProvider({ children }) {
     wavesurferRef,
     regionsPluginRef,
     formatTime,
-    togglePlayPause
+    togglePlayPause,
+    transcriptionOptions
   };
 
   return (
