@@ -10,7 +10,9 @@ function PlaybackControls() {
     formatTime,
     addTrimsToHistory,
     detectSilences,
-    silenceThreshold: defaultSilenceThreshold
+    silenceThreshold: defaultSilenceThreshold,
+    handleZoom,
+    wavesurferRef
   } = useVideoEditor();
 
   const [localSilenceThreshold, setLocalSilenceThreshold] = useState(defaultSilenceThreshold);
@@ -41,6 +43,12 @@ function PlaybackControls() {
       </button>
       <button onClick={handleTrim} className="trim-button">
         Trim
+      </button>
+      <button onClick={() => handleZoom(wavesurferRef.current.options.minPxPerSec + 20)} className="zoom-button">
+        Zoom In
+      </button>
+      <button onClick={() => handleZoom(wavesurferRef.current.options.minPxPerSec - 20)} className="zoom-button">
+        Zoom Out
       </button>
       <div className="silence-detection-controls">
         <label htmlFor="silence-threshold">Silence Threshold (s):</label>

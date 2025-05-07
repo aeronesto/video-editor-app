@@ -29,6 +29,12 @@ export function VideoEditorProvider({ children }) {
     vad_onset: 0.45
   };
 
+  const handleZoom = useCallback((level) => {
+    if (wavesurferRef.current) {
+      wavesurferRef.current.zoom(level);
+    }
+  }, []);
+
   const togglePlayPause = () => {
     if (videoRef.current) {
       if (playing) {
@@ -159,7 +165,8 @@ export function VideoEditorProvider({ children }) {
     regionsPluginRef,
     formatTime,
     togglePlayPause,
-    transcriptionOptions
+    transcriptionOptions,
+    handleZoom
   };
 
   return (

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useVideoEditor } from '../context/VideoEditorContext';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/dist/plugins/regions';
+import MinimapPlugin from 'wavesurfer.js/dist/plugins/minimap';
 
 function AudioWaveform() {
   const {
@@ -32,6 +33,13 @@ function AudioWaveform() {
       // Store reference to the regions plugin
       regionsPluginRef.current = regionsPlugin;
       
+      const minimapPlugin = MinimapPlugin.create({
+        height: 20,
+        waveColor: '#ddd',
+        progressColor: '#999',
+        cursorColor: '#333'
+      });
+      
       wavesurferRef.current = WaveSurfer.create({
         container: waveformRef.current,
         waveColor: '#4F4A85',
@@ -45,7 +53,7 @@ function AudioWaveform() {
         mediaControls: false,
         mediaType: 'video',
         media: videoRef.current,
-        plugins: [regionsPlugin]
+        plugins: [regionsPlugin, minimapPlugin]
       });
       
       // Enable drag selection to create regions
