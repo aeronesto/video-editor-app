@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useRef, useCallback } from 'react';
 import WaveSurfer from 'wavesurfer.js';
-import { formatTime, mergeTrimItems, detectSilencesCore } from '../utils';
+import { formatTime, mergeTrimItems, detectSilencesCore, adjustSilencesWithPadding } from '../utils';
 import { transcribeBlob, transcribeFile } from '../services';
 
 const VideoEditorContext = createContext();
@@ -71,14 +71,21 @@ export function VideoEditorProvider({ children }) {
   // Function to detect silences based on transcription word timings
   // Detect silences via utility and merge into history
   const detectSilences = useCallback((threshold) => {
-    const silences = detectSilencesCore(transcription, duration, threshold);
-    if (silences.length > 0) {
-      console.log(`Detected ${silences.length} silence gaps >= ${threshold}s.`);
-      setTrimHistory(prev => mergeTrimItems(prev, silences));
+    const rawSilences = detectSilencesCore(transcription, duration, threshold);
+    
+    // Define the padding amount (0.05 seconds).
+    const padding = 0.2;
+    // Adjust the raw silences by adding the defined padding.
+    // This helps prevent cutting off speech by making silence regions slightly shorter.
+    const adjustedSilences = adjustSilencesWithPadding(rawSilences, padding);
+    
+    if (adjustedSilences.length > 0) {
+      console.log(`Detected ${adjustedSilences.length} silence gaps >= ${threshold}s (after padding).`);
+      setTrimHistory(prev => mergeTrimItems(prev, adjustedSilences));
     } else {
-      console.log(`No silence gaps found >= ${threshold}s.`);
+      console.log(`No silence gaps found >= ${threshold}s (after padding).`);
     }
-    return silences;
+    return adjustedSilences;
   }, [transcription, duration]);
 
   // Manually trigger transcription for a video file
