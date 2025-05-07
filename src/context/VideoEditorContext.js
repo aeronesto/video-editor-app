@@ -74,6 +74,15 @@ export function VideoEditorProvider({ children }) {
     return newTrims;
   };
 
+  // Function to remove a specific trim item from the history
+  const removeTrimFromHistory = useCallback((trimIdToRemove) => {
+    setTrimHistory(prevTrimHistory => {
+      const updatedHistory = prevTrimHistory.filter(trim => trim.id !== trimIdToRemove);
+      console.log(`Removed trim ${trimIdToRemove}. New history:`, updatedHistory);
+      return updatedHistory;
+    });
+  }, []);
+
   // Function to detect silences based on transcription word timings
   // Detect silences via utility and merge into history
   const detectSilences = useCallback((threshold) => {
@@ -150,6 +159,7 @@ export function VideoEditorProvider({ children }) {
     setDuration,
     trimHistory,
     addTrimsToHistory,
+    removeTrimFromHistory,
     detectSilences,
     silenceThreshold,
     setSilenceThreshold,

@@ -15,7 +15,8 @@ function AudioWaveform() {
     setDuration,
     trimHistory,
     transcription,
-    findWordAtTime
+    findWordAtTime,
+    removeTrimFromHistory
   } = useVideoEditor();
 
   // Initialize WaveSurfer when video is loaded
@@ -72,6 +73,28 @@ function AudioWaveform() {
       // Region event listeners
       regionsPlugin.on('region-created', region => {
         console.log('Region created:', region);
+
+        // Create a delete icon
+        const deleteIcon = document.createElement('span');
+        deleteIcon.innerHTML = '✖'; // Simple text icon
+        deleteIcon.className = 'region-delete-icon'; // For CSS styling
+        
+        // Inline styles removed, will be handled by CSS class 'region-delete-icon'
+
+        // Append the icon directly to the region's main element.
+        // This ensures its absolute positioning is relative to the entire region.
+        region.element.appendChild(deleteIcon);
+
+        // Add click event listener to the icon
+        deleteIcon.addEventListener('click', (event) => {
+          event.stopPropagation(); // Prevent region click or other events
+          console.log('Delete icon clicked for region:', region.id);
+          removeTrimFromHistory(region.id);
+        });
+
+        // Optional: If you want to ensure the icon is re-added if the region element is ever re-rendered by Wavesurfer
+        // you might need to also use 'region-updated' or manage this more directly if regions are fully replaced.
+        // However, since trimHistory drives region creation, this should be sufficient for deletions.
       });
       
       regionsPlugin.on('region-updated', region => {
