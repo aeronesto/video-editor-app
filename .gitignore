@@ -36,3 +36,6 @@ logs
 # Misc
 .cache/ 
 __pycache__/
+
+# Uploads
+uploads/

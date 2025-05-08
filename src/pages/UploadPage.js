@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+
 function UploadPage() {
   const [dragActive, setDragActive] = useState(false);
   const navigate = useNavigate();
@@ -42,24 +44,37 @@ function UploadPage() {
     }
   };
   
-  const handleFile = (file) => {
-    // Generate a unique video ID
-    const videoId = `video_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    // Create URL and store file info in localStorage with the ID
-    const videoData = {
-      id: videoId,
-      url: URL.createObjectURL(file),
-      name: file.name
-    };
-    
-    // Store all videos in an object by their IDs
-    const existingVideos = JSON.parse(localStorage.getItem('videos') || '{}');
-    existingVideos[videoId] = videoData;
-    localStorage.setItem('videos', JSON.stringify(existingVideos));
-    
-    // Navigate to the edit page with video ID as query parameter
-    navigate(`/edit?videoId=${videoId}`);
+  const handleFile = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      // Send the file to the backend
+      const response = await fetch(`${BASE_URL}/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.videoId) {
+          // Navigate to the edit page with video ID from backend
+          navigate(`/edit?videoId=${result.videoId}`);
+        } else {
+          console.error('Backend did not return a videoId:', result);
+          alert('File upload was successful, but could not get video ID. Please try again.');
+        }
+      } else {
+        // Handle server errors (e.g., 500, 400)
+        const errorResult = await response.json();
+        console.error('File upload failed:', response.statusText, errorResult);
+        alert(`File upload failed: ${errorResult.error || response.statusText}. Please try again.`);
+      }
+    } catch (error) {
+      // Handle network errors or other issues with the fetch call
+      console.error('Error uploading file:', error);
+      alert('Error uploading file. Please check your connection and try again.');
+    }
   };
   
   return (

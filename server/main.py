@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 import config
-from app.routes.transcribe import router as transcribe_router
+from app.routes import transcribe_router, upload_router
 
 # Configure logging
 logging.basicConfig(
@@ -31,3 +31,5 @@ logger.info(f"Upload directory: {config.UPLOAD_DIR}")
 
 # Include transcription routes
 app.include_router(transcribe_router)
+# Include upload routes
+app.include_router(upload_router)
