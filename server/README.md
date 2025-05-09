@@ -9,6 +9,7 @@ This server provides word-level timestamp transcription for the Video Editor App
 - Python 3.10 (WhisperX requires Python 3.9, 3.10, 3.11, or 3.12)
 - FFmpeg installed on your system
 - (Optional) CUDA-compatible GPU for faster transcription
+- (Optional) Google Cloud Storage account and credentials for cloud storage
 
 ### Installation
 
@@ -153,3 +154,40 @@ Health check endpoint.
   - On macOS: `brew install ffmpeg`
   - On Ubuntu: `sudo apt-get install ffmpeg`
   - On Windows: Download from https://ffmpeg.org/download.html or install with Chocolatey: `choco install ffmpeg`
+
+## Storage Configuration
+
+The server supports both local and cloud storage for uploaded video files. Configure the storage type using environment variables:
+
+### Local Storage (Default)
+
+Local storage saves files to the `uploads` directory in the server folder.
+
+```bash
+# No configuration needed for local storage (default)
+# Or explicitly set:
+export STORAGE_TYPE=local
+```
+
+### Google Cloud Storage
+
+To use Google Cloud Storage:
+
+1. Install the Google Cloud Storage client:
+   ```bash
+   pip install google-cloud-storage
+   ```
+
+2. Set up authentication:
+   - Create a service account with Storage Object Admin permissions
+   - Download the JSON key file
+   - Set the environment variable to point to your key file:
+     ```bash
+     export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your-project-credentials.json"
+     ```
+
+3. Configure the storage settings:
+   ```bash
+   export STORAGE_TYPE=gcs
+   export GCS_BUCKET_NAME=your-bucket-name
+   ```

@@ -7,4 +7,5 @@ torch>=2.0.1
 numpy>=1.24.3
 pydantic>=2.1.1
 ffmpeg-python>=0.2.0
-tqdm>=4.66.1 
+tqdm>=4.66.1
+google-cloud-storage==3.1.0
