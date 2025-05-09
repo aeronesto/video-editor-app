@@ -5,27 +5,26 @@ import TranscriptionPanel from '../components/TranscriptionPanel';
 import VideoPanel from '../components/VideoPanel';
 import PlaybackControls from '../components/PlaybackControls';
 import AudioWaveform from '../components/AudioWaveform';
+import { VideoFile, TranscriptionData } from '../types'; // Changed from ../types.js
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
 
-function EditPageContent() {
+const EditPageContent: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { 
     videoFile, 
     setVideoFile,
     setTranscription 
-  } = useVideoEditor();
+  } = useVideoEditor(); // No longer need to explicitly type here if useVideoEditor is correctly typed and returns VideoEditorContextValue
 
-  // Load video data when component mounts
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const video_id = params.get('video_id');
     
     if (video_id) {
-      // NEW: Fetch video from backend
       console.log(`Fetching video with ID: ${video_id}`);
-      fetch(`${BASE_URL}/video/${video_id}`) // Assuming backend runs on port 8000
+      fetch(`${BASE_URL}/video/${video_id}`)
         .then(response => {
           if (!response.ok) {
             if (response.status === 404) {
@@ -39,35 +38,27 @@ function EditPageContent() {
         })
         .then(blob => {
           const videoUrl = URL.createObjectURL(blob);
-          // We need a name for the video. We can try to get it from Content-Disposition header if backend sends it,
-          // or use a placeholder.
-          // For now, using a placeholder name based on video_id.
-          const fetchedVideoFile = {
+          const fetchedVideoFile: VideoFile = { // Uses imported VideoFile
             id: video_id,
-            name: `Video ${video_id}`, // Placeholder name
+            name: `Video ${video_id}`,
             url: videoUrl,
           };
           setVideoFile(fetchedVideoFile);
-          // If transcription is tied to the video, you might want to load it here as well.
-          // For now, let's assume default transcription is okay or handled elsewhere.
-          loadDefaultTranscription(); // Or a specific one if backend provides info
+          loadDefaultTranscription();
         })
         .catch(error => {
           console.error('Error fetching video from backend or processing blob:', error);
-          // Fallback to default video if fetching fails
           alert(`Could not load video: ${video_id}. Loading default video instead.`);
           loadDefaultVideo();
         });
     } else {
-      // No video_id in URL, load default video
       loadDefaultVideo();
     }
-  }, [location, setVideoFile]); // Added setTranscription to dependency array as loadDefaultTranscription uses it
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, setVideoFile, setTranscription]); // Added setTranscription to deps as loadDefaultTranscription uses it.
 
-  // Function to load default transcription
   const loadDefaultTranscription = () => {
     const defaultTranscriptionPath = '/transcription.json';
-    
     fetch(defaultTranscriptionPath)
       .then(response => {
         if (!response.ok) {
@@ -75,7 +66,7 @@ function EditPageContent() {
         }
         return response.json();
       })
-      .then(data => {
+      .then((data: TranscriptionData) => { // Uses imported TranscriptionData
         console.log("Setting default transcription:", data); 
         setTranscription(data);
       })
@@ -85,16 +76,14 @@ function EditPageContent() {
       });
   };
 
-  // Function to load default video
   const loadDefaultVideo = () => {
     const defaultVideoPath = '/2x.mp4';
-    setVideoFile({ id: 'default', name: 'Default Video (Loading...)', url: '' });
-    
+    setVideoFile({ id: 'default', name: 'Default Video (Loading...)', url: '' }); 
     fetch(defaultVideoPath)
       .then(response => response.blob())
       .then(blob => {
         const url = URL.createObjectURL(blob);
-        const defaultVideo = {
+        const defaultVideo: VideoFile = { // Uses imported VideoFile
           id: 'default',
           name: 'Default Video',
           url: url
@@ -104,12 +93,12 @@ function EditPageContent() {
       })
       .catch(error => {
         console.error('Error loading default video:', error);
-        const defaultVideo = {
+        const fallbackVideo: VideoFile = { // Uses imported VideoFile
           id: 'default',
           name: 'Default Video (Fallback)',
           url: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
         };
-        setVideoFile(defaultVideo);
+        setVideoFile(fallbackVideo);
         loadDefaultTranscription(); 
       });
   };
@@ -141,8 +130,7 @@ function EditPageContent() {
   );
 }
 
-// Wrap the EditPage with the VideoEditorProvider
-function EditPage() {
+const EditPage: React.FC = () => {
   return (
     <VideoEditorProvider>
       <EditPageContent />

@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
 
-function UploadPage() {
-  const [dragActive, setDragActive] = useState(false);
+const UploadPage: React.FC = () => {
+  const [dragActive, setDragActive] = useState<boolean>(false);
   const navigate = useNavigate();
   
-  const handleDrag = (e) => {
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
@@ -17,7 +17,7 @@ function UploadPage() {
     }
   };
   
-  const handleDrop = (e) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -32,7 +32,7 @@ function UploadPage() {
     }
   };
   
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -44,7 +44,7 @@ function UploadPage() {
     }
   };
   
-  const handleFile = async (file) => {
+  const handleFile = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
 
@@ -56,7 +56,7 @@ function UploadPage() {
       });
 
       if (response.ok) {
-        const result = await response.json();
+        const result: any = await response.json(); // Consider defining an interface for the response
         if (result.video_id) {
           // Navigate to the edit page with video ID from backend
           navigate(`/edit?video_id=${result.video_id}`);
@@ -66,7 +66,7 @@ function UploadPage() {
         }
       } else {
         // Handle server errors (e.g., 500, 400)
-        const errorResult = await response.json();
+        const errorResult: any = await response.json(); // Consider defining an interface for the error response
         console.error('File upload failed:', response.statusText, errorResult);
         alert(`File upload failed: ${errorResult.error || response.statusText}. Please try again.`);
       }

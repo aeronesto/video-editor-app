@@ -1,9 +1,9 @@
 /**
  * Format a time in seconds to MM:SS format.
- * @param {number} timeInSeconds
- * @returns {string}
+ * @param timeInSeconds - The time in seconds.
+ * @returns The formatted time string (MM:SS).
  */
-export function formatTime(timeInSeconds) {
+export function formatTime(timeInSeconds: number): string {
   if (timeInSeconds == null || isNaN(timeInSeconds)) {
     return '00:00';
   }

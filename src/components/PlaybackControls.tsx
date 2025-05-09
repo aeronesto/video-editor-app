@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import { useVideoEditor } from '../context/VideoEditorContext';
 
-function PlaybackControls() {
-  const {
-    playing,
-    currentTime,
-    duration,
-    togglePlayPause,
-    formatTime,
-    addTrimsToHistory,
-    detectSilences,
-    silenceThreshold: defaultSilenceThreshold,
-    handleZoom,
+const PlaybackControls: React.FC = () => {
+  const { // Destructure directly
+    playing, 
+    currentTime, 
+    duration, 
+    togglePlayPause, 
+    formatTime, 
+    addTrimsToHistory, 
+    detectSilences, 
+    silenceThreshold: defaultSilenceThreshold, 
+    handleZoom, 
     wavesurferRef
   } = useVideoEditor();
 
-  const [localSilenceThreshold, setLocalSilenceThreshold] = useState(defaultSilenceThreshold);
+  const [localSilenceThreshold, setLocalSilenceThreshold] = useState<string>(defaultSilenceThreshold.toString());
 
   const handleTrim = () => {
-    const newTrims = addTrimsToHistory();
+    const newTrims = addTrimsToHistory(); // Should return TrimHistoryItem[] or undefined
     if (newTrims && newTrims.length > 0) {
       console.log('Added trims to history:', newTrims);
     } else {
@@ -33,7 +33,20 @@ function PlaybackControls() {
       alert("Please enter a valid positive number for the silence threshold.");
       return;
     }
-    detectSilences(threshold);
+    detectSilences(threshold); // Should take number and return TrimHistoryItem[] or undefined
+  };
+
+  const onZoomIn = () => {
+    if (wavesurferRef.current && wavesurferRef.current.options) {
+      handleZoom(wavesurferRef.current.options.minPxPerSec + 20);
+    }
+  };
+
+  const onZoomOut = () => {
+    if (wavesurferRef.current && wavesurferRef.current.options) {
+      const newZoomLevel = Math.max(1, wavesurferRef.current.options.minPxPerSec - 20);
+      handleZoom(newZoomLevel);
+    }
   };
 
   return (
@@ -44,10 +57,10 @@ function PlaybackControls() {
       <button onClick={handleTrim} className="trim-button">
         Trim
       </button>
-      <button onClick={() => handleZoom(wavesurferRef.current.options.minPxPerSec + 20)} className="zoom-button">
+      <button onClick={onZoomIn} className="zoom-button">
         Zoom In
       </button>
-      <button onClick={() => handleZoom(wavesurferRef.current.options.minPxPerSec - 20)} className="zoom-button">
+      <button onClick={onZoomOut} className="zoom-button">
         Zoom Out
       </button>
       <div className="silence-detection-controls">
@@ -59,7 +72,7 @@ function PlaybackControls() {
           min="0.1" 
           step="0.1"
           value={localSilenceThreshold}
-          onChange={(e) => setLocalSilenceThreshold(e.target.value)} 
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLocalSilenceThreshold(e.target.value)} 
           className="silence-threshold-input"
         />
         <button onClick={handleDetectSilences} className="detect-silence-button">

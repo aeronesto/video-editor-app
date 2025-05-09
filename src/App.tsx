@@ -9,7 +9,7 @@ import './styles/UploadPage.css';
 import UploadPage from './pages/UploadPage';
 import EditPage from './pages/EditPage';
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
