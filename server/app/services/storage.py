@@ -7,6 +7,8 @@ import os
 import logging
 import shutil
 from fastapi import UploadFile
+from fastapi.responses import FileResponse
+from typing import Union, Tuple
 
 # Initialize logger
 logger = logging.getLogger(__name__)
@@ -26,6 +28,19 @@ class StorageService(ABC):
             
         Returns:
             The path where the file was saved
+        """
+        pass
+    
+    @abstractmethod
+    async def get_video(self, video_id: str) -> Union[Tuple[str, str], None]:
+        """
+        Retrieve a video file from storage.
+        
+        Args:
+            video_id: The unique identifier for the video
+            
+        Returns:
+            Tuple containing (file_path, content_type) if found, None otherwise
         """
         pass
 
@@ -66,6 +81,34 @@ class LocalStorageService(StorageService):
         except Exception as e:
             logger.error(f"Error saving file locally: {e}", exc_info=True)
             raise
+    
+    async def get_video(self, video_id: str) -> Union[Tuple[str, str], None]:
+        """Retrieve video from local filesystem."""
+        try:
+            logger.info(f"Attempting to find video with ID: {video_id} in local storage")
+            # Construct the expected prefix for the video file
+            file_prefix_to_find = f"video_{video_id}_"
+            
+            # Scan the directory for the file
+            for filename in os.listdir(self.storage_path):
+                if filename.startswith(file_prefix_to_find):
+                    file_path = os.path.join(self.storage_path, filename)
+                    logger.info(f"Found video file: {file_path}")
+                    # Infer content type based on extension or default to mp4
+                    content_type = 'video/mp4'
+                    if filename.lower().endswith('.mov'):
+                        content_type = 'video/quicktime'
+                    elif filename.lower().endswith('.avi'):
+                        content_type = 'video/x-msvideo'
+                    elif filename.lower().endswith('.webm'):
+                        content_type = 'video/webm'
+                    return file_path, content_type
+            
+            logger.warning(f"Video file with ID '{video_id}' not found in {self.storage_path}.")
+            return None
+        except Exception as e:
+            logger.error(f"Error retrieving video {video_id} from local storage: {e}", exc_info=True)
+            raise
 
 class GCSStorageService(StorageService):
     """Service for storing files on Google Cloud Storage."""
@@ -83,6 +126,7 @@ class GCSStorageService(StorageService):
             
             self.client = storage.Client()
             self.bucket = self.client.bucket(bucket_name)
+            self.bucket_name = bucket_name
             logger.info(f"GCSStorageService initialized with bucket: {bucket_name}")
         except ImportError:
             logger.error("google-cloud-storage package is required for GCS storage")
@@ -111,6 +155,53 @@ class GCSStorageService(StorageService):
             return gcs_path
         except Exception as e:
             logger.error(f"Error saving file to GCS: {e}", exc_info=True)
+            raise
+    
+    async def get_video(self, video_id: str) -> Union[Tuple[str, str], None]:
+        """Retrieve video from Google Cloud Storage."""
+        try:
+            import tempfile
+            from google.cloud import storage
+            
+            logger.info(f"Attempting to find video with ID: {video_id} in GCS")
+            # Construct the expected prefix for the video file
+            file_prefix = f"video_{video_id}_"
+            
+            # List blobs with the prefix
+            blobs = list(self.bucket.list_blobs(prefix=f"videos/{file_prefix}"))
+            
+            if not blobs:
+                logger.warning(f"Video file with ID '{video_id}' not found in GCS bucket '{self.bucket_name}'.")
+                return None
+            
+            # Use the first matching blob
+            blob = blobs[0]
+            filename = os.path.basename(blob.name)
+            
+            # Create a temporary file to store the downloaded content
+            temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(filename)[1])
+            temp_file_path = temp_file.name
+            temp_file.close()
+            
+            # Download the blob to the temporary file
+            blob.download_to_filename(temp_file_path)
+            
+            # Infer content type based on extension or use the blob's content type
+            content_type = blob.content_type
+            if not content_type or content_type == 'application/octet-stream':
+                content_type = 'video/mp4'  # Default
+                if filename.lower().endswith('.mov'):
+                    content_type = 'video/quicktime'
+                elif filename.lower().endswith('.avi'):
+                    content_type = 'video/x-msvideo'
+                elif filename.lower().endswith('.webm'):
+                    content_type = 'video/webm'
+            
+            logger.info(f"Downloaded video from GCS to temporary file: {temp_file_path}")
+            return temp_file_path, content_type
+            
+        except Exception as e:
+            logger.error(f"Error retrieving video {video_id} from GCS: {e}", exc_info=True)
             raise
 
 def get_storage_service() -> StorageService:
