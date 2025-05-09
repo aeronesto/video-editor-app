@@ -37,7 +37,7 @@ async def create_upload_file(file: UploadFile = File(...)):
             shutil.copyfileobj(file.file, file_object)
         
         logger.info(f"File '{file.filename}' uploaded and saved as video_id='{video_id}' at '{file_location}'")
-        return {"videoId": video_id}
+        return {"video_id": video_id}
     except Exception as e:
         logger.error(f"Could not upload file: {e}", exc_info=True)
         # It's good practice to not expose internal error details to the client directly in production

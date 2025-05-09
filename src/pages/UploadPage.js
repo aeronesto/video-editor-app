@@ -57,11 +57,11 @@ function UploadPage() {
 
       if (response.ok) {
         const result = await response.json();
-        if (result.videoId) {
+        if (result.video_id) {
           // Navigate to the edit page with video ID from backend
-          navigate(`/edit?videoId=${result.videoId}`);
+          navigate(`/edit?video_id=${result.video_id}`);
         } else {
-          console.error('Backend did not return a videoId:', result);
+          console.error('Backend did not return a video_id:', result);
           alert('File upload was successful, but could not get video ID. Please try again.');
         }
       } else {

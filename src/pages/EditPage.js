@@ -6,6 +6,8 @@ import VideoPanel from '../components/VideoPanel';
 import PlaybackControls from '../components/PlaybackControls';
 import AudioWaveform from '../components/AudioWaveform';
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+
 function EditPageContent() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,21 +20,49 @@ function EditPageContent() {
   // Load video data when component mounts
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const videoId = params.get('videoId');
+    const video_id = params.get('video_id');
     
-    if (videoId) {
-      const videos = JSON.parse(localStorage.getItem('videos') || '{}');
-      const videoData = videos[videoId];
-      
-      if (videoData) {
-        setVideoFile(videoData);
-      } else {
-        loadDefaultVideo();
-      }
+    if (video_id) {
+      // NEW: Fetch video from backend
+      console.log(`Fetching video with ID: ${video_id}`);
+      fetch(`${BASE_URL}/video/${video_id}`) // Assuming backend runs on port 8000
+        .then(response => {
+          if (!response.ok) {
+            if (response.status === 404) {
+              console.error(`Video with ID ${video_id} not found on server.`);
+            } else {
+              console.error(`Error fetching video ${video_id}: ${response.status} ${response.statusText}`);
+            }
+            throw new Error(`Server error: ${response.status}`);
+          }
+          return response.blob();
+        })
+        .then(blob => {
+          const videoUrl = URL.createObjectURL(blob);
+          // We need a name for the video. We can try to get it from Content-Disposition header if backend sends it,
+          // or use a placeholder.
+          // For now, using a placeholder name based on video_id.
+          const fetchedVideoFile = {
+            id: video_id,
+            name: `Video ${video_id}`, // Placeholder name
+            url: videoUrl,
+          };
+          setVideoFile(fetchedVideoFile);
+          // If transcription is tied to the video, you might want to load it here as well.
+          // For now, let's assume default transcription is okay or handled elsewhere.
+          loadDefaultTranscription(); // Or a specific one if backend provides info
+        })
+        .catch(error => {
+          console.error('Error fetching video from backend or processing blob:', error);
+          // Fallback to default video if fetching fails
+          alert(`Could not load video: ${video_id}. Loading default video instead.`);
+          loadDefaultVideo();
+        });
     } else {
+      // No video_id in URL, load default video
       loadDefaultVideo();
     }
-  }, [location, setVideoFile]);
+  }, [location, setVideoFile]); // Added setTranscription to dependency array as loadDefaultTranscription uses it
 
   // Function to load default transcription
   const loadDefaultTranscription = () => {
